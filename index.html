@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-q/XnFcFtPt7LrezJ8SbLW6ZRXzE5oPktcZj560nMOhE='; style-src 'sha256-Gmz3kUdWU28AveSdGh2/pK0kz5h1GGjTZub8PBG/cKY='; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-R48vcppnfQcaGsKWvbgcnOEYE1l+I6bax/tOne89bGc='; style-src 'sha256-21a2BfULEswrGVJiFUYED3rSi4Xi/0V2Iq37O8M3W+E='; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
@@ -59,6 +59,7 @@ mark{background:rgba(34,211,197,.22);color:inherit;border-radius:3px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .lk{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;text-decoration:none;font-size:.85rem;font-weight:600}
 .lk span{display:block;font-weight:400;color:var(--mut);font-size:.72rem;margin-top:2px}
+.lk.store{border-color:rgba(34,211,197,.35)}
 .sec{color:var(--mut);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;margin:14px 0 6px}
 /* candidatos */
 .form{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px}
@@ -107,7 +108,7 @@ label{font-size:.72rem;color:var(--mut);display:block;margin-bottom:3px}
   <section class="view" id="v-buscar">
     <form class="sbox" id="sform" autocomplete="off">
       <span class="ic">🔎</span>
-      <input id="q" type="search" maxlength="60" placeholder="Busque: legging, sérum, power bank…" enterkeyhint="search">
+      <input id="q" type="search" maxlength="60" placeholder="Busque qualquer produto em todas as lojas…" enterkeyhint="search">
       <button class="x hidden" id="qx" type="button" aria-label="Limpar">✕</button>
     </form>
     <div class="chips" id="cats"></div>
@@ -266,6 +267,29 @@ function hl(parent,text,terms){ // destaca termos sem usar innerHTML
   pos.forEach(function(p){if(p[0]<last)return;parent.appendChild(document.createTextNode(text.slice(last,p[0])));parent.appendChild(el("mark",null,text.slice(p[0],p[1])));last=p[1];});
   parent.appendChild(document.createTextNode(text.slice(last)));
 }
+var SOCIAL=["TikTok","Google Trends","Instagram","YouTube Shorts","Pinterest"];
+// Códigos de afiliado: preencha quando as contas forem aprovadas (ex.: "farincal-21").
+var AFF={amazon_es:"",amazon_br:"",amazon_us:""};
+function storeLinks(m,q){
+  var e=encodeURIComponent(q),slug=encodeURIComponent(q.trim().replace(/\s+/g,"-")),az=AFF["amazon_"+m]?"&tag="+encodeURIComponent(AFF["amazon_"+m]):"";
+  var L={
+    es:[["Amazon","amazon.es","https://www.amazon.es/s?k="+e+az],["AliExpress","envio da China","https://es.aliexpress.com/wholesale?SearchText="+e],
+        ["Temu","preços baixos","https://www.temu.com/search_result.html?search_key="+e],["SHEIN","moda e casa","https://es.shein.com/pdsearch/"+e+"/"],
+        ["eBay","novo e usado","https://www.ebay.es/sch/i.html?_nkw="+e],["Wallapop","segunda mão","https://es.wallapop.com/app/search?keywords="+e],
+        ["PcComponentes","tecnologia","https://www.pccomponentes.com/search/?query="+e],["Google Shopping","todas as lojas","https://www.google.com/search?tbm=shop&gl=es&hl=es&q="+e]],
+    br:[["Mercado Livre","maior do Brasil","https://lista.mercadolivre.com.br/"+slug],["Shopee","preços baixos","https://shopee.com.br/search?keyword="+e],
+        ["Amazon","amazon.com.br","https://www.amazon.com.br/s?k="+e+az],["Magalu","varejo","https://www.magazineluiza.com.br/busca/"+e+"/"],
+        ["AliExpress","envio internacional","https://pt.aliexpress.com/wholesale?SearchText="+e],["Temu","preços baixos","https://www.temu.com/br/search_result.html?search_key="+e],
+        ["SHEIN","moda e casa","https://br.shein.com/pdsearch/"+e+"/"],["OLX","usados","https://www.olx.com.br/brasil?q="+e],
+        ["Google Shopping","todas as lojas","https://www.google.com/search?tbm=shop&gl=br&hl=pt-BR&q="+e]],
+    us:[["Amazon","amazon.com","https://www.amazon.com/s?k="+e+az],["Walmart","varejo","https://www.walmart.com/search?q="+e],
+        ["eBay","novo e usado","https://www.ebay.com/sch/i.html?_nkw="+e],["Target","varejo","https://www.target.com/s?searchTerm="+e],
+        ["Etsy","feito à mão","https://www.etsy.com/search?q="+e],["AliExpress","envio da China","https://www.aliexpress.com/wholesale?SearchText="+e],
+        ["Temu","preços baixos","https://www.temu.com/search_result.html?search_key="+e],["SHEIN","moda e casa","https://us.shein.com/pdsearch/"+e+"/"],
+        ["Best Buy","eletrônicos","https://www.bestbuy.com/site/searchpage.jsp?st="+e],["Google Shopping","todas as lojas","https://www.google.com/search?tbm=shop&gl=us&hl=en&q="+e]]
+  };
+  return L[m];
+}
 function extLinks(m,q){
   var e=encodeURIComponent(q),g=MK[m].geo,a=MK[m].amz,tag=norm(q).replace(/[^a-z0-9]/g,"");
   var L=[["TikTok","vídeos e Shop","https://www.tiktok.com/search?q="+e],
@@ -313,15 +337,20 @@ function renderSearch(){
     return terms.every(function(t){return hay.indexOf(t)>=0;});
   });
   rows.sort(st.sort==="price"?function(a,b){return a[3]-b[3];}:st.sort==="name"?function(a,b){return a[1].localeCompare(b[1]);}:function(a,b){return b[5]-a[5]||a[3]-b[3];});
-  document.getElementById("count").textContent=rows.length+(rows.length===1?" produto":" produtos")+" em "+MK[st.m].name;
+  document.getElementById("count").textContent=rows.length+(rows.length===1?" produto":" produtos")+" no radar de "+MK[st.m].name;
   var box=document.getElementById("results");box.textContent="";
-  rows.forEach(function(r){box.appendChild(card(r,terms));});
-  if(q){ // sempre oferece pesquisar fora
-    var e=el("div","empty");
-    e.appendChild(el("p",null,rows.length?"Quer ir além do radar? Pesquise \""+q+"\" direto nas redes:":"\""+q+"\" ainda não está no radar de "+MK[st.m].name+". Pesquise direto nas redes:"));
-    var g=el("div","grid");extLinks(st.m,q).forEach(function(l){var a=ext(el("a","lk",l[0]),l[2]);a.appendChild(el("span",null,l[1]));g.appendChild(a);});
-    e.appendChild(g);box.appendChild(e);
+  if(q){ // todas as lojas primeiro
+    box.appendChild(el("div","sec","🛒 \""+q+"\" em todas as lojas · "+MK[st.m].name));
+    var g=el("div","grid stores");
+    storeLinks(st.m,q).forEach(function(l){var a=ext(el("a","lk store",l[0]),l[2]);a.appendChild(el("span",null,l[1]));g.appendChild(a);});
+    box.appendChild(g);
+    box.appendChild(el("div","sec","📈 Redes e tendência"));
+    var g2=el("div","grid");
+    extLinks(st.m,q).filter(function(l){return SOCIAL.indexOf(l[0])>=0;}).forEach(function(l){var a=ext(el("a","lk",l[0]),l[2]);a.appendChild(el("span",null,l[1]));g2.appendChild(a);});
+    box.appendChild(g2);
+    box.appendChild(el("div","sec",rows.length?"🔥 No radar (em alta)":"🔥 Ainda não está no radar de tendências"));
   }
+  rows.forEach(function(r){box.appendChild(card(r,terms));});
   document.getElementById("qx").classList.toggle("hidden",!q);
 }
 function renderTop(){
