@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-QV1m4pkDZz1R5K0clSUqsh8FsYQ36ZybUA4Oo4Bi1II='; style-src 'sha256-OMhA9yo9pleZk6KzUtpVxVI8i5AIEgEUUNzacnszTSo='; font-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Waw6Dv9Hm/CTGViYnJGE50VDO9nw7Vk54ruz/WPB29I='; style-src 'sha256-OMhA9yo9pleZk6KzUtpVxVI8i5AIEgEUUNzacnszTSo='; font-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
@@ -345,11 +345,39 @@ var DB=[
 ];
 var CATS=[];DB.forEach(function(r){if(CATS.indexOf(r[2])<0)CATS.push(r[2]);});
 var SOCIAL=["TikTok","Google Trends","Instagram","YouTube Shorts","Pinterest"];
-// Códigos de afiliado: preencha quando as contas forem aprovadas (ex.: "farincal-21").
-var AFF={amazon_es:"",amazon_br:"",amazon_us:""};
+// ===== CÓDIGOS DE AFILIADO =====================================================
+// Preencha e publique: a partir daí, todo clique para a loja leva o seu código.
+var AFF={
+  // Amazon Associates: o seu "tag" de cada país (ex.: "farincal-21").
+  amazon:{es:"",br:"",us:""},
+  // eBay Partner Network: o seu Campaign ID (número de 10 dígitos).
+  ebay:{campid:""},
+  // Redes de afiliados (Admitad, Awin, Impact, CJ...): cole o "deeplink" da loja
+  // trocando o endereço do produto por {url}. Ex.: "https://ad.admitad.com/g/abc123/?ulp={url}"
+  // Pode ser um texto (vale para todos os países) ou {es:"",br:"",us:""}.
+  deeplink:{"AliExpress":"","Temu":"","SHEIN":"","Shopee":"","Magalu":"","Mercado Livre":"","OLX":"",
+            "Wallapop":"","PcComponentes":"","Walmart":"","Target":"","Etsy":"","Best Buy":""},
+  // Etiqueta para saber, no painel do afiliado, que a venda veio do Radar.
+  subid:"radar"
+};
+var EBAY_ROT={es:"1185-53479-19255-0",us:"711-53200-19255-0"};
+function addParams(url,params){return url+(url.indexOf("?")<0?"?":"&")+params;}
+function affLink(store,m,url){
+  try{
+    if(store==="Amazon"&&AFF.amazon[m])return addParams(url,"tag="+encodeURIComponent(AFF.amazon[m]));
+    if(store==="eBay"&&AFF.ebay.campid&&EBAY_ROT[m])return addParams(url,"mkevt=1&mkcid=1&mkrid="+EBAY_ROT[m]+"&campid="+encodeURIComponent(AFF.ebay.campid)+"&toolid=10001&customid="+encodeURIComponent(AFF.subid));
+    var d=AFF.deeplink[store];if(d&&typeof d==="object")d=d[m];
+    if(typeof d==="string"&&/^https:\/\/[^\s"'<>]+$/.test(d)&&d.indexOf("{url}")>0){
+      var out=d.replace("{url}",encodeURIComponent(url));
+      return /[?&]subid=/.test(out)||!/admitad|alitems|fas\.st/.test(out)?out:addParams(out,"subid="+encodeURIComponent(AFF.subid));
+    }
+  }catch(e){}
+  return url;
+}
+function isAff(store,m){return affLink(store,m,"https://x.y/")!=="https://x.y/";}
 function storeLinks(m,q){
   // [loja, descrição, url, ordenada do mais barato?]
-  var e=encodeURIComponent(q),slug=encodeURIComponent(q.trim().replace(/\s+/g,"-")),az=AFF["amazon_"+m]?"&tag="+encodeURIComponent(AFF["amazon_"+m]):"";
+  var e=encodeURIComponent(q),slug=encodeURIComponent(q.trim().replace(/\s+/g,"-")),az="";
   var L={
     es:[["Amazon","amazon.es","https://www.amazon.es/s?k="+e+"&s=price-asc-rank"+az,1],["AliExpress","envio da China","https://es.aliexpress.com/wholesale?SearchText="+e+"&SortType=price_asc",1],
         ["eBay","novo e usado","https://www.ebay.es/sch/i.html?_nkw="+e+"&_sop=15",1],["Wallapop","segunda mão","https://es.wallapop.com/app/search?keywords="+e+"&order_by=price_low_to_high",1],
@@ -452,7 +480,7 @@ function renderBusca(){
   v.appendChild(el("h3",null,"Nas lojas, do mais barato para o mais caro"));
   var ul=el("ul","lojas");
   storeLinks(st.m,q).sort(function(a,b){return b[3]-a[3];}).forEach(function(l){
-    var li=el("li"),a=ext(el("a","loja"),l[2]);
+    var li=el("li"),a=ext(el("a","loja"),affLink(l[0],st.m,l[2]));if(isAff(l[0],st.m))a.rel="noopener noreferrer sponsored";
     var mo=el("span","mono",l[0].split(" ").map(function(w){return w[0];}).join("").slice(0,2).toUpperCase());mo.style.background=CORES[l[0]]||"#4A2A55";a.appendChild(mo);
     var nm=el("span","nm");nm.appendChild(el("b",null,l[0]));nm.appendChild(el("small",null,l[1]));a.appendChild(nm);
     a.appendChild(el("span","selo "+(l[3]?"barato":"manual"),l[3]?"Mais barato primeiro":"Ordenar na loja"));

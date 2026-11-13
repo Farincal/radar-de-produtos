@@ -26,3 +26,13 @@ Site estático (um único `index.html`), publicado pelo GitHub Pages a partir da
 
 - Cores: lilás-névoa `#F1ECF6` (fundo), ameixa `#2A1233` (texto e topo), curry `#E3A81F` (botões e etiquetas de preço), wasabi `#C4D94A` (mais barato), fúcsia `#D3216A` (em alta).
 - Fontes hospedadas no próprio site (pasta `fonts/`, licença SIL OFL): Bricolage Grotesque (títulos) e Figtree (texto). Sem Google Fonts externo, melhor para o RGPD.
+
+## Códigos de afiliado
+
+No `index.html`, procure `CÓDIGOS DE AFILIADO` e preencha:
+
+- `amazon`: o tag do Amazon Associates de cada país (ex.: `farincal-21`).
+- `ebay`: o Campaign ID do eBay Partner Network.
+- `deeplink`: para lojas em redes de afiliados (Admitad, Awin, Impact…), cole o deeplink trocando o endereço da loja por `{url}`.
+
+Links com código recebem `rel="sponsored"`. Modelos de link inválidos (que não começam com `https://` ou não têm `{url}`) são ignorados por segurança. Depois de editar, recalcule o hash do script na CSP.
