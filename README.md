@@ -21,3 +21,8 @@ Site estático (um único `index.html`), publicado pelo GitHub Pages a partir da
 - `noindex` + `robots.txt`: a página não aparece nos buscadores.
 
 > Ao editar o script da página, recalcule os hashes `sha256` do script e do CSS no cabeçalho CSP, senão a página quebra.
+
+## Identidade visual
+
+- Cores: lilás-névoa `#F1ECF6` (fundo), ameixa `#2A1233` (texto e topo), curry `#E3A81F` (botões e etiquetas de preço), wasabi `#C4D94A` (mais barato), fúcsia `#D3216A` (em alta).
+- Fontes hospedadas no próprio site (pasta `fonts/`, licença SIL OFL): Bricolage Grotesque (títulos) e Figtree (texto). Sem Google Fonts externo, melhor para o RGPD.

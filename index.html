@@ -3,188 +3,273 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-tuU16YlBNq8snhFVw5p0Y6IpoQZJvBocEMTUnIqmViY='; style-src 'sha256-No0w5tFU5PVQ6Z3VOxvSCSxbBBVUsY4I3VwlZGd4OLE='; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-QV1m4pkDZz1R5K0clSUqsh8FsYQ36ZybUA4Oo4Bi1II='; style-src 'sha256-OMhA9yo9pleZk6KzUtpVxVI8i5AIEgEUUNzacnszTSo='; font-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta name="referrer" content="no-referrer">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
-<meta name="theme-color" content="#0f1115">
-<title>Radar de Produtos em Alta · FarincalTec</title>
+<meta name="theme-color" content="#2A1233">
+<meta name="description" content="Busque qualquer produto e compare o preço mais baixo na Amazon, AliExpress, Temu, Mercado Livre, Shopee e outras lojas.">
+<title>Radar · o preço mais baixo em qualquer loja</title>
+<link rel="preload" href="fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/figtree-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-:root{--bg:#0d0f14;--bg2:#141821;--card:#1a1f2b;--line:#272e3d;--txt:#eef1f7;--mut:#8f99ab;--acc:#ff3d6e;--acc2:#22d3c5;--ok:#3ccf7a;--warn:#f5b942;--bad:#ff6b6b;--r:14px}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.4}
+@font-face{font-family:"Bricolage";src:url(fonts/bricolage-grotesque-latin-wght-normal.woff2) format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"Figtree";src:url(fonts/figtree-latin-wght-normal.woff2) format("woff2");font-weight:300 900;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Figtree";src:url(fonts/figtree-latin-ext-wght-normal.woff2) format("woff2");font-weight:300 900;font-display:swap;unicode-range:U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+:root{
+  --nevoa:#F1ECF6;--papel:#FFFFFF;--ameixa:#2A1233;--ameixa2:#4A2A55;--uva:#6B4A78;
+  --curry:#E3A81F;--curry-claro:#F6D98E;--wasabi:#C4D94A;--wasabi-claro:#EEF4C6;--fucsia:#D3216A;--fucsia-claro:#FBE3EC;
+  --linha:#DCD0E6;--mudo:#6E5E78;
+  --display:"Bricolage",ui-sans-serif,system-ui,sans-serif;--texto:"Figtree",ui-sans-serif,system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--nevoa);color:var(--ameixa);font-family:var(--texto);font-size:16px;line-height:1.5}
 button,input,select{font:inherit;color:inherit}
 a{color:inherit}
-.app{max-width:760px;margin:0 auto;padding:0 14px 96px}
-.top{position:sticky;top:0;z-index:20;background:linear-gradient(var(--bg) 80%,transparent);padding:12px 0 8px}
-.brand{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.brand h1{font-size:1.15rem;margin:0;letter-spacing:-.01em}
-.brand h1 b{color:var(--acc)}
-.brand small{color:var(--mut);font-size:.72rem}
-.mkts{display:flex;gap:6px;margin-top:10px}
-.mk{flex:1;border:1px solid var(--line);background:var(--bg2);border-radius:999px;padding:7px 4px;font-size:.85rem;font-weight:600;cursor:pointer;color:var(--mut)}
-.mk.on{background:var(--acc);border-color:var(--acc);color:#fff}
-.view{display:none}.view.on{display:block}
-h2{font-size:1rem;margin:16px 0 6px}
-.sub{color:var(--mut);font-size:.8rem;margin:0 0 10px}
-/* busca */
-.sbox{position:relative;margin-top:6px}
-.sbox input{width:100%;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 44px 14px 42px;font-size:1rem;outline:none}
-.sbox input::-webkit-search-cancel-button{display:none;-webkit-appearance:none}
-.sbox input:focus{border-color:var(--acc2)}
-.sbox .ic{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--mut)}
-.sbox .x{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:0;color:var(--mut);font-size:1.1rem;cursor:pointer;padding:8px}
-.chips{display:flex;gap:6px;overflow-x:auto;padding:10px 0 4px;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chip{white-space:nowrap;border:1px solid var(--line);background:var(--bg2);border-radius:999px;padding:6px 11px;font-size:.8rem;cursor:pointer;color:var(--mut)}
-.chip.on{border-color:var(--acc2);color:var(--acc2)}
-.bar{display:flex;justify-content:space-between;align-items:center;color:var(--mut);font-size:.78rem;margin:6px 0}
-.bar select{background:var(--bg2);border:1px solid var(--line);border-radius:8px;padding:4px 6px;font-size:.78rem}
-.res{display:flex;flex-direction:column;gap:8px}
-.item{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:11px 12px}
-.ih{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
-.ih h3{font-size:.95rem;margin:0}
-.rank{flex:none;width:26px;height:26px;border-radius:8px;background:var(--bg2);display:grid;place-items:center;font-weight:700;font-size:.8rem;color:var(--acc2)}
-.meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:5px 0;font-size:.78rem;color:var(--mut)}
-.price{color:var(--acc2);font-weight:600}
-.tag{border:1px solid var(--line);border-radius:999px;padding:1px 8px}
-.heat{display:inline-flex;gap:2px}.heat i{width:6px;height:10px;border-radius:2px;background:var(--line)}.heat i.h{background:var(--acc)}
-.sig{font-size:.84rem;margin:4px 0}
-.src{font-size:.72rem;color:var(--mut)}
-mark{background:rgba(34,211,197,.22);color:inherit;border-radius:3px}
-.acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.act{border:1px solid var(--line);background:var(--bg2);border-radius:9px;padding:6px 9px;font-size:.76rem;text-decoration:none;cursor:pointer}
-.act.p{border-color:var(--acc);color:var(--acc)}
-.empty{background:var(--card);border:1px dashed var(--line);border-radius:var(--r);padding:14px;font-size:.88rem}
-.empty p{margin:0 0 10px;color:var(--mut)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.lk{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;text-decoration:none;font-size:.85rem;font-weight:600}
-.lk span{display:block;font-weight:400;color:var(--mut);font-size:.72rem;margin-top:2px}
-.lk.store{border-color:rgba(34,211,197,.35)}
-.cheap{display:block;text-decoration:none;background:linear-gradient(135deg,rgba(60,207,122,.18),rgba(34,211,197,.12));border:1px solid var(--ok);border-radius:var(--r);padding:12px 14px;margin:4px 0 6px}
-.cheap b{display:block;font-size:.98rem;color:var(--ok)}
-.cheap span{display:block;font-size:.78rem;color:var(--mut);margin-top:3px}
-.sec{color:var(--mut);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;margin:14px 0 6px}
-/* candidatos */
-.form{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px}
-.fr{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
-.fr.one{grid-template-columns:1fr}
-label{font-size:.72rem;color:var(--mut);display:block;margin-bottom:3px}
-.form input,.form select{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:10px;padding:9px;font-size:.9rem}
-.btn{border:1px solid var(--line);background:var(--bg2);border-radius:10px;padding:9px 12px;font-size:.85rem;cursor:pointer}
-.btn.p{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600;width:100%;margin-top:10px}
-.cand{display:flex;align-items:center;gap:10px}
-.cand .sc{flex:none;width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:800}
-.s-hi{background:rgba(60,207,122,.16);color:var(--ok)}.s-md{background:rgba(245,185,66,.16);color:var(--warn)}.s-lo{background:rgba(255,107,107,.16);color:var(--bad)}
-.cand .cb{flex:1;min-width:0}.cand .cb b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.del{background:none;border:0;color:var(--mut);font-size:1rem;cursor:pointer;padding:8px}
-.tools{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.filelbl{display:inline-block;color:var(--txt);font-size:.85rem;margin:0}
-.hidden{display:none}
-.status{color:var(--acc2);font-size:.78rem;min-height:1em;margin-top:6px}
-.tips{font-size:.84rem;padding-left:18px;color:var(--txt)}.tips li{margin:5px 0}
-.foot{color:var(--mut);font-size:.7rem;margin-top:20px}
-/* navegação inferior */
-.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(13,15,20,.96);border-top:1px solid var(--line);display:flex;justify-content:center;padding-bottom:env(safe-area-inset-bottom)}
-.nav div{display:flex;max-width:760px;width:100%}
-.nb{flex:1;background:none;border:0;padding:9px 2px 10px;color:var(--mut);font-size:.7rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
-.nb .e{font-size:1.2rem}
-.nb.on{color:var(--acc)}
-.badge{background:var(--acc);color:#fff;border-radius:999px;font-size:.62rem;padding:0 5px;margin-left:2px}
-@media (min-width:700px){.grid{grid-template-columns:1fr 1fr 1fr}}
+:focus-visible{outline:3px solid var(--curry);outline-offset:2px;border-radius:6px}
+.wrap{max-width:880px;margin:0 auto;padding:0 18px}
+.hidden{display:none!important}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* topo */
+.topo{background:var(--ameixa);color:var(--nevoa)}
+.topo .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:14px;padding-bottom:6px}
+.marca{display:flex;align-items:center;gap:9px;text-decoration:none}
+.marca svg{flex:none}
+.marca b{font-family:var(--display);font-weight:800;font-size:1.35rem;letter-spacing:-.02em}
+.paises{display:flex;background:rgba(241,236,246,.1);border-radius:999px;padding:3px}
+.pais{border:0;background:none;color:var(--nevoa);padding:6px 11px;border-radius:999px;font-size:.84rem;font-weight:600;cursor:pointer;opacity:.75}
+.pais[aria-pressed="true"]{background:var(--nevoa);color:var(--ameixa);opacity:1}
+
+/* herói */
+.heroi{background:var(--ameixa);color:var(--nevoa);padding:26px 0 30px;border-radius:0 0 34px 34px}
+.heroi h1{font-family:var(--display);font-weight:800;font-size:clamp(2rem,7.4vw,3.6rem);line-height:1.02;letter-spacing:-.035em;margin:0 0 12px;max-width:17ch}
+.heroi p{margin:0 0 22px;color:#D9CCE2;max-width:46ch;font-size:1.02rem}
+/* a etiqueta de preço */
+.etiqueta{position:relative;display:flex;align-items:stretch;background:var(--curry);border-radius:14px 22px 22px 14px;padding:6px;box-shadow:0 10px 0 -4px #B9850F}
+.etiqueta::before{content:"";position:absolute;left:14px;top:50%;width:12px;height:12px;margin-top:-6px;border-radius:50%;background:var(--ameixa);box-shadow:inset 0 0 0 2px #B9850F}
+.etiqueta input{flex:1;min-width:0;border:0;background:var(--papel);color:var(--ameixa);border-radius:10px 16px 16px 10px;margin-left:30px;padding:15px 44px 15px 16px;font-size:1.08rem;font-weight:500;outline:none}
+.etiqueta input::placeholder{color:#9A8AA4}
+.etiqueta input::-webkit-search-cancel-button{display:none;-webkit-appearance:none}
+.etiqueta input:focus-visible{box-shadow:inset 0 0 0 3px var(--fucsia)}
+.limpar{position:absolute;right:112px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--mudo);font-size:1.1rem;cursor:pointer;padding:8px}
+.etiqueta button[type=submit]{border:0;background:var(--ameixa);color:var(--curry);font-weight:700;font-family:var(--display);font-size:1rem;border-radius:16px;padding:0 18px;margin-left:6px;cursor:pointer}
+.sugestoes{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:.86rem;color:#D9CCE2}
+.sug{border:1px solid rgba(241,236,246,.28);background:none;color:var(--nevoa);padding:5px 12px;border-radius:999px;cursor:pointer;font-size:.84rem}
+.sug:hover{border-color:var(--curry);color:var(--curry)}
+
+/* confiança */
+.confianca{list-style:none;margin:18px 0 6px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.confianca li{display:flex;gap:8px;align-items:flex-start;font-size:.8rem;line-height:1.3;color:var(--ameixa2)}
+.confianca svg{flex:none;margin-top:1px}
+
+/* navegação */
+.abas{display:flex;gap:4px;margin:18px 0 6px;border-bottom:2px solid var(--linha)}
+.aba{border:0;background:none;padding:10px 12px;font-weight:600;color:var(--mudo);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;display:flex;gap:6px;align-items:center}
+.aba[aria-selected="true"]{color:var(--ameixa);border-color:var(--fucsia)}
+.cont{background:var(--fucsia);color:#fff;font-size:.7rem;border-radius:999px;padding:0 6px;font-weight:700}
+.vista{display:none;padding-bottom:40px}.vista.on{display:block}
+
+h2{font-family:var(--display);font-weight:700;font-size:1.45rem;letter-spacing:-.02em;margin:22px 0 4px;line-height:1.15}
+h3{font-family:var(--display);font-weight:700;font-size:1.08rem;margin:26px 0 10px;letter-spacing:-.01em}
+.leve{color:var(--mudo);font-size:.9rem;margin:0 0 12px}
+
+/* comparar menor preço */
+.menor{display:flex;gap:14px;align-items:center;text-decoration:none;background:var(--wasabi);color:var(--ameixa);border-radius:20px;padding:16px 18px;margin-top:16px}
+.menor .sel{flex:none;width:52px;height:52px;border-radius:16px;background:var(--ameixa);color:var(--wasabi);display:grid;place-items:center}
+.menor b{display:block;font-family:var(--display);font-size:1.15rem;letter-spacing:-.01em;line-height:1.2}
+.menor span{display:block;font-size:.85rem;margin-top:2px;color:#3D2A10}
+
+/* lojas */
+.lojas{list-style:none;margin:0;padding:0;background:var(--papel);border-radius:20px;border:1px solid var(--linha);overflow:hidden}
+.lojas li+li{border-top:1px solid var(--linha)}
+.loja{display:flex;align-items:center;gap:12px;padding:13px 16px;text-decoration:none}
+.loja:hover{background:#FAF7FC}
+.mono{flex:none;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:.95rem;color:var(--papel)}
+.loja .nm{flex:1;min-width:0}
+.loja .nm b{display:block;font-weight:700}
+.loja .nm small{display:block;color:var(--mudo);font-size:.8rem}
+.selo{flex:none;font-size:.74rem;font-weight:700;padding:4px 9px;border-radius:999px}
+.selo.barato{background:var(--wasabi-claro);color:#4A5A06}
+.selo.manual{background:#F1ECF6;color:var(--mudo)}
+.redes{display:flex;flex-wrap:wrap;gap:8px}
+.rede{display:inline-flex;align-items:center;gap:7px;background:var(--papel);border:1px solid var(--linha);border-radius:999px;padding:8px 14px;text-decoration:none;font-weight:600;font-size:.88rem}
+.rede:hover{border-color:var(--uva)}
+
+/* radar (produtos em alta) */
+.filtros{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none}
+.filtros::-webkit-scrollbar{display:none}
+.filtro{flex:none;border:1px solid var(--linha);background:var(--papel);border-radius:999px;padding:7px 13px;font-size:.84rem;cursor:pointer;color:var(--ameixa2)}
+.filtro[aria-pressed="true"]{background:var(--ameixa);border-color:var(--ameixa);color:var(--nevoa)}
+.ordem{display:flex;justify-content:space-between;align-items:center;font-size:.84rem;color:var(--mudo);margin-bottom:8px}
+.ordem select{border:1px solid var(--linha);background:var(--papel);border-radius:10px;padding:6px 8px;font-size:.84rem}
+.lista{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.prod{background:var(--papel);border-radius:20px;padding:16px;display:grid;grid-template-columns:auto 1fr;gap:4px 14px}
+.prod>*{grid-column:2}
+.prod .pos{grid-column:1;grid-row:1/span 5;width:40px;text-align:center}
+.prod .pos b{display:block;font-family:var(--display);font-weight:800;font-size:1.6rem;line-height:1;color:var(--uva)}
+.calor{display:flex;flex-direction:column-reverse;gap:3px;align-items:center;margin-top:8px}
+.calor i{display:block;width:14px;height:4px;border-radius:2px;background:var(--linha)}
+.calor i.on{background:var(--fucsia)}
+.prod h4{margin:0;font-family:var(--display);font-weight:700;font-size:1.06rem;line-height:1.25;letter-spacing:-.01em}
+.prod mark{background:var(--curry-claro);color:inherit;border-radius:3px;padding:0 1px}
+.linha1{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:.82rem}
+.preco{display:inline-flex;align-items:center;background:var(--curry);color:var(--ameixa);font-weight:800;font-family:var(--display);border-radius:6px 10px 10px 6px;padding:2px 10px 2px 14px;position:relative}
+.preco::before{content:"";position:absolute;left:5px;top:50%;width:4px;height:4px;margin-top:-2px;border-radius:50%;background:var(--ameixa)}
+.cat{color:var(--mudo)}
+.alta{color:var(--fucsia);font-weight:700}
+.sinal{font-size:.9rem;margin:2px 0 0;color:var(--ameixa2)}
+.fonte{font-size:.76rem;color:var(--mudo)}
+.acoes{grid-column:2;display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.ac{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--linha);background:none;border-radius:10px;padding:6px 10px;font-size:.8rem;font-weight:600;text-decoration:none;cursor:pointer}
+.ac:hover{border-color:var(--uva)}
+.ac.add{background:var(--ameixa);border-color:var(--ameixa);color:var(--nevoa)}
+.vazio{background:var(--papel);border-radius:20px;padding:18px;color:var(--mudo);font-size:.92rem}
+
+/* minha lista */
+.form{background:var(--papel);border-radius:20px;padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form .full{grid-column:1/-1}
+.form label{display:block;font-size:.78rem;font-weight:600;color:var(--mudo);margin-bottom:4px}
+.form input,.form select{width:100%;border:1px solid var(--linha);background:#FBF9FD;border-radius:12px;padding:11px;font-size:.95rem}
+.btn{border:0;border-radius:14px;padding:13px 16px;font-weight:700;cursor:pointer;font-family:var(--display);font-size:1rem}
+.btn.pri{background:var(--curry);color:var(--ameixa)}
+.btn.sec{background:var(--papel);border:1px solid var(--linha);font-family:var(--texto);font-weight:600;font-size:.88rem;padding:10px 14px}
+.cand{background:var(--papel);border-radius:18px;padding:12px 14px;display:flex;align-items:center;gap:12px}
+.nota{flex:none;width:50px;height:50px;border-radius:15px;display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1.2rem}
+.n-alta{background:var(--wasabi);color:var(--ameixa)}.n-media{background:var(--curry-claro);color:var(--ameixa)}.n-baixa{background:var(--fucsia-claro);color:var(--fucsia)}
+.cand .ct{flex:1;min-width:0}.cand .ct b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cand .ct small{color:var(--mudo);font-size:.8rem}
+.del{border:0;background:none;color:var(--mudo);cursor:pointer;padding:8px;font-size:1rem}
+.ferr{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.status{min-height:1.4em;color:var(--uva);font-weight:600;font-size:.85rem;margin-top:8px}
+.dicas{background:var(--papel);border-radius:20px;padding:6px 18px}
+.dicas dt{font-weight:700;margin-top:12px}
+.dicas dd{margin:2px 0 12px;color:var(--ameixa2);font-size:.92rem}
+.fontes-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fonte-l{background:var(--papel);border-radius:16px;padding:13px 14px;text-decoration:none}
+.fonte-l b{display:block}.fonte-l small{color:var(--mudo)}
+
+.rodape{background:var(--ameixa);color:#CDBFD7;font-size:.8rem;padding:24px 0 96px;margin-top:20px}
+.rodape p{margin:0 0 10px;max-width:70ch}
+.rodape b{color:var(--nevoa)}
+
+@media (max-width:640px){
+  .confianca{grid-template-columns:1fr;gap:6px}
+  .abas{position:fixed;left:0;right:0;bottom:0;z-index:20;margin:0;background:var(--papel);border:0;border-top:1px solid var(--linha);justify-content:space-around;padding:4px 4px calc(4px + env(safe-area-inset-bottom))}
+  .aba{flex-direction:column;gap:2px;font-size:.72rem;border-bottom:0;border-top:3px solid transparent;margin:0;padding:7px 6px}
+  .aba[aria-selected="true"]{border-color:var(--fucsia)}
+  .pais span{display:none}
+  .limpar{right:96px}
+  .etiqueta button[type=submit]{padding:0 14px}
+}
+@media (min-width:641px){.aba svg{display:none}}
+@media (prefers-reduced-motion:no-preference){.heroi h1{animation:entra .5s ease-out both}@keyframes entra{from{opacity:0;transform:translateY(8px)}}}
 </style>
 </head>
 <body>
-<div class="app">
-  <header class="top">
-    <div class="brand">
-      <h1>📡 Radar <b>de Produtos</b></h1>
-      <small>FarincalTec</small>
+<header class="topo">
+  <div class="wrap">
+    <a class="marca" href="./" aria-label="Radar, página inicial">
+      <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><path d="M4 9a5 5 0 0 1 5-5h10.5a5 5 0 0 1 3.6 1.5l7.4 7.6a5 5 0 0 1 0 7l-9.4 9.4a5 5 0 0 1-7.1 0L6.5 22.1A5 5 0 0 1 4 18z" fill="#E3A81F"/><circle cx="11" cy="11" r="2.6" fill="#2A1233"/><path d="M15 23a7 7 0 0 1 7-7M15 19a3 3 0 0 1 3-3" stroke="#2A1233" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>
+      <b>Radar</b>
+    </a>
+    <div class="paises" role="group" aria-label="País">
+      <button class="pais" data-m="es" type="button">ES <span>Espanha</span></button>
+      <button class="pais" data-m="br" type="button">BR <span>Brasil</span></button>
+      <button class="pais" data-m="us" type="button">US <span>EUA</span></button>
     </div>
-    <div class="mkts" id="mkts">
-      <button class="mk" data-m="es" type="button">🇪🇸 Espanha</button>
-      <button class="mk" data-m="br" type="button">🇧🇷 Brasil</button>
-      <button class="mk" data-m="us" type="button">🌎 EUA</button>
-    </div>
-  </header>
+  </div>
+</header>
 
-  <!-- BUSCAR -->
-  <section class="view" id="v-buscar">
-    <form class="sbox" id="sform" autocomplete="off">
-      <span class="ic">🔎</span>
-      <input id="q" type="search" maxlength="60" placeholder="Busque qualquer produto em todas as lojas…" enterkeyhint="search">
-      <button class="x hidden" id="qx" type="button" aria-label="Limpar">✕</button>
+<section class="heroi">
+  <div class="wrap">
+    <h1>Ache o preço mais baixo em qualquer loja.</h1>
+    <p id="heroiSub">Uma busca na Amazon, AliExpress, Temu, Mercado Livre, Shopee e mais lojas, com os resultados do mais barato para o mais caro.</p>
+    <form class="etiqueta" id="sform" role="search" autocomplete="off">
+      <label class="sr" for="q">Produto</label>
+      <input id="q" type="search" maxlength="60" placeholder="Ex.: fone bluetooth" enterkeyhint="search">
+      <button class="limpar hidden" id="qx" type="button" aria-label="Limpar busca">✕</button>
+      <button type="submit">Buscar</button>
     </form>
-    <div class="chips" id="cats"></div>
-    <div class="bar"><span id="count"></span>
-      <select id="sort" aria-label="Ordenar"><option value="heat">🔥 Mais quente</option><option value="price">💰 Mais barato</option><option value="name">A–Z</option></select>
+    <div class="sugestoes" id="sugestoes"></div>
+  </div>
+</section>
+
+<main class="wrap">
+  <ul class="confianca">
+    <li><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" stroke="#6B4A78" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Grátis, sem cadastro</li>
+    <li><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5.5c0 4.4-3 8-7 9.5-4-1.5-7-5.1-7-9.5V6z" stroke="#6B4A78" stroke-width="2.2" fill="none" stroke-linejoin="round"/></svg>Você compra direto na loja oficial</li>
+    <li><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.5" stroke="#6B4A78" stroke-width="2.2" fill="none"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" stroke="#6B4A78" stroke-width="2.2" fill="none"/></svg>Suas buscas ficam só no seu aparelho</li>
+  </ul>
+
+  <nav class="abas" role="tablist" aria-label="Seções">
+    <button class="aba" role="tab" data-v="buscar" type="button"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6" stroke="currentColor" stroke-width="2.2" fill="none"/><path d="M15 15l5 5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Buscar</button>
+    <button class="aba" role="tab" data-v="alta" type="button"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18l5-6 4 3 7-9" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 6h5v5" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>Em alta</button>
+    <button class="aba" role="tab" data-v="lista" type="button"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h10a1 1 0 0 1 1 1v15l-6-3.5L6 20V5a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linejoin="round"/></svg>Minha lista <span class="cont hidden" id="cont"></span></button>
+    <button class="aba" role="tab" data-v="dicas" type="button"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="2.2" fill="none"/><path d="M12 11v5M12 7.5v.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>Dicas</button>
+  </nav>
+
+  <section class="vista" id="v-buscar" aria-live="polite"></section>
+
+  <section class="vista" id="v-alta">
+    <h2 id="altaTit"></h2>
+    <p class="leve" id="altaSub"></p>
+    <div class="filtros" id="cats" role="group" aria-label="Categorias"></div>
+    <div class="ordem"><span id="count"></span>
+      <label><span class="sr">Ordenar</span><select id="sort"><option value="heat">Mais em alta</option><option value="price">Mais barato</option><option value="name">A a Z</option></select></label>
     </div>
-    <div class="res" id="results"></div>
+    <ul class="lista" id="top"></ul>
   </section>
 
-  <!-- EM ALTA -->
-  <section class="view" id="v-alta">
-    <h2>🔥 Top do momento</h2>
-    <p class="sub" id="altaSub"></p>
-    <div class="res" id="top"></div>
-  </section>
-
-  <!-- CANDIDATOS -->
-  <section class="view" id="v-cand">
-    <h2>⭐ Meus candidatos</h2>
-    <p class="sub">Avalie antes de comprar estoque. Nota = demanda + margem + concorrência + vídeo.</p>
+  <section class="vista" id="v-lista">
+    <h2>Minha lista</h2>
+    <p class="leve">Para quem revende: anote produtos e veja a margem e uma nota de 0 a 100 antes de comprar estoque.</p>
     <form class="form" id="cform">
-      <div class="fr one"><div><label for="c_name">Produto</label><input id="c_name" maxlength="80" required></div></div>
-      <div class="fr">
-        <div><label for="c_sale">Preço de venda</label><input id="c_sale" type="number" inputmode="decimal" min="0" step="0.01" required></div>
-        <div><label for="c_cost">Custo (produto+frete)</label><input id="c_cost" type="number" inputmode="decimal" min="0" step="0.01" required></div>
-      </div>
-      <div class="fr">
-        <div><label for="c_dem">Demanda</label><select id="c_dem"><option value="1">1 · baixa</option><option value="2">2</option><option value="3" selected>3 · média</option><option value="4">4</option><option value="5">5 · alta</option></select></div>
-        <div><label for="c_comp">Concorrência</label><select id="c_comp"><option value="1">1 · pouca</option><option value="2">2</option><option value="3" selected>3 · média</option><option value="4">4</option><option value="5">5 · muita</option></select></div>
-      </div>
-      <div class="fr">
-        <div><label for="c_mkt">Mercado</label><select id="c_mkt"><option value="es">Espanha</option><option value="br">Brasil</option><option value="us">EUA</option></select></div>
-        <div><label for="c_demo">Rende vídeo?</label><select id="c_demo"><option value="1">Sim</option><option value="0">Não</option></select></div>
-      </div>
-      <div class="fr one"><div><label for="c_note">Notas</label><input id="c_note" maxlength="200" placeholder="fornecedor, link, ideia de vídeo"></div></div>
-      <button class="btn p" type="submit">Adicionar candidato</button>
+      <div class="full"><label for="c_name">Produto</label><input id="c_name" maxlength="80" required></div>
+      <div><label for="c_sale">Vou vender por</label><input id="c_sale" type="number" inputmode="decimal" min="0" step="0.01" required></div>
+      <div><label for="c_cost">Me custa (com frete)</label><input id="c_cost" type="number" inputmode="decimal" min="0" step="0.01" required></div>
+      <div><label for="c_dem">Procura</label><select id="c_dem"><option value="1">Muito baixa</option><option value="2">Baixa</option><option value="3" selected>Média</option><option value="4">Alta</option><option value="5">Muito alta</option></select></div>
+      <div><label for="c_comp">Concorrência</label><select id="c_comp"><option value="1">Quase nenhuma</option><option value="2">Pouca</option><option value="3" selected>Média</option><option value="4">Muita</option><option value="5">Saturado</option></select></div>
+      <div><label for="c_mkt">País</label><select id="c_mkt"><option value="es">Espanha</option><option value="br">Brasil</option><option value="us">EUA</option></select></div>
+      <div><label for="c_demo">Dá para mostrar em vídeo?</label><select id="c_demo"><option value="1">Sim</option><option value="0">Não</option></select></div>
+      <div class="full"><label for="c_note">Anotações</label><input id="c_note" maxlength="200" placeholder="Fornecedor, link, ideia de vídeo"></div>
+      <button class="btn pri full" type="submit">Adicionar à lista</button>
     </form>
-    <div class="res" id="clist"></div>
-    <div class="tools">
-      <button class="btn" id="copyCsv" type="button">Copiar CSV</button>
-      <button class="btn" id="dlBackup" type="button">⬇ Backup</button>
-      <label class="btn filelbl" for="upBackup">⬆ Restaurar</label>
+    <h3 id="listaTit" class="hidden">Seus produtos, da melhor nota para a pior</h3>
+    <ul class="lista" id="clist"></ul>
+    <div class="ferr">
+      <button class="btn sec" id="copyCsv" type="button">Copiar planilha (CSV)</button>
+      <button class="btn sec" id="dlBackup" type="button">Baixar cópia de segurança</button>
+      <label class="btn sec" for="upBackup">Restaurar cópia</label>
       <input id="upBackup" class="hidden" type="file" accept="application/json,.json">
     </div>
-    <div class="status" id="status"></div>
-    <p class="sub">A lista fica neste navegador. Faça backup para levar a outro aparelho.</p>
+    <div class="status" id="status" role="status"></div>
   </section>
 
-  <!-- FONTES -->
-  <section class="view" id="v-fontes">
-    <h2>📊 Rankings ao vivo</h2>
-    <p class="sub">Listas oficiais atualizadas pelas próprias plataformas.</p>
-    <div class="grid" id="live"></div>
-    <h2>✅ Antes de vender</h2>
-    <ul class="tips">
-      <li><b>Preço:</b> 6–45 € / até ~50 US$ — compra por impulso.</li>
-      <li><b>Vídeo:</b> sem "antes e depois" em 15–60 s, desconfie.</li>
-      <li><b>Margem:</b> mire ≥ 50% depois do frete; taxas e afiliados levam 15–25%.</li>
-      <li><b>Tendência:</b> curva subindo no Google Trends nos últimos 90 dias.</li>
-      <li><b>Calendário:</b> Black Friday e Natal até meados de dezembro; janeiro favorece fitness e organização.</li>
-      <li><b>Regras:</b> cosméticos e suplementos precisam de registro (AEMPS / ANVISA).</li>
-    </ul>
-    <p class="foot">Base de produtos montada em 11/11/2026 com relatórios públicos (FastMoss, EchoTik, NetInfluencer, Canaltech, Mercado&amp;Consumo e outros). A força do sinal (🔥) é uma estimativa a partir desses relatórios, não garantia de venda.</p>
+  <section class="vista" id="v-dicas">
+    <h2>Antes de comprar para revender</h2>
+    <dl class="dicas">
+      <dt>Preço de impulso</dt><dd>Entre 6 e 45 € (ou até uns 50 US$) as pessoas compram sem pensar muito.</dd>
+      <dt>Mostra em vídeo?</dt><dd>Se não dá para mostrar um antes e depois em 15 a 60 segundos, desconfie.</dd>
+      <dt>Margem de verdade</dt><dd>Mire 50% ou mais depois do frete. Taxas e comissões levam de 15% a 25%.</dd>
+      <dt>Subindo, não no topo</dt><dd>No Google Trends, a curva dos últimos 90 dias deve estar crescendo.</dd>
+      <dt>Calendário</dt><dd>Black Friday e Natal vão até meados de dezembro. Em janeiro, fitness e organização.</dd>
+      <dt>Registro obrigatório</dt><dd>Cosméticos e suplementos precisam de registro na AEMPS (Espanha) ou na ANVISA (Brasil).</dd>
+    </dl>
+    <h3>Rankings oficiais das lojas</h3>
+    <div class="fontes-grid" id="live"></div>
   </section>
-</div>
+</main>
 
-<nav class="nav"><div>
-  <button class="nb" data-v="buscar" type="button"><span class="e">🔎</span>Buscar</button>
-  <button class="nb" data-v="alta" type="button"><span class="e">🔥</span>Em alta</button>
-  <button class="nb" data-v="cand" type="button"><span class="e">⭐</span><span>Candidatos<span class="badge hidden" id="nbadge"></span></span></button>
-  <button class="nb" data-v="fontes" type="button"><span class="e">📊</span>Fontes</button>
-</div></nav>
+<footer class="rodape">
+  <div class="wrap">
+    <p><b>Radar</b> é um projeto da FarincalTec, em Barcelona.</p>
+    <p>Os links levam às lojas oficiais. Alguns podem ser de afiliado: se você comprar, o Radar pode receber uma pequena comissão, sem custo extra para você.</p>
+    <p>Não usamos cookies de rastreamento. Sua lista e suas preferências ficam guardadas só no seu navegador.</p>
+    <p>Produtos em alta: pesquisa de 11/11/2026 em relatórios públicos (FastMoss, EchoTik, NetInfluencer, Canaltech, Mercado&amp;Consumo e outros). O indicador de calor é uma estimativa, não garantia de venda.</p>
+  </div>
+</footer>
 
 <script>
 (function(){
@@ -259,18 +344,6 @@ var DB=[
  ["us","Kits de presente (BFCM/Natal)","Presentes",20,60,4,"Janela de Black Friday e fim de ano: kits e gift sets.","hs","presente kit natal regalo gift black friday"]
 ];
 var CATS=[];DB.forEach(function(r){if(CATS.indexOf(r[2])<0)CATS.push(r[2]);});
-
-function norm(s){return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");}
-function el(t,c,txt){var n=document.createElement(t);if(c)n.className=c;if(txt!=null)n.textContent=txt;return n;}
-function ext(a,href){a.href=href;a.target="_blank";a.rel="noopener noreferrer";return a;}
-function fmt(m,v){var c=MK[m].cur;return c+" "+(Math.round(v*100)/100).toString().replace(".",m==="us"?".":",");}
-function heatEl(h){var w=el("span","heat");w.setAttribute("aria-label","força "+h+" de 5");for(var i=1;i<=5;i++)w.appendChild(el("i",i<=h?"h":""));return w;}
-function hl(parent,text,terms){ // destaca termos sem usar innerHTML
-  var nt=norm(text),pos=[];terms.forEach(function(t){if(!t)return;var i=nt.indexOf(t);if(i>=0)pos.push([i,i+t.length]);});
-  pos.sort(function(a,b){return a[0]-b[0];});var last=0;
-  pos.forEach(function(p){if(p[0]<last)return;parent.appendChild(document.createTextNode(text.slice(last,p[0])));parent.appendChild(el("mark",null,text.slice(p[0],p[1])));last=p[1];});
-  parent.appendChild(document.createTextNode(text.slice(last)));
-}
 var SOCIAL=["TikTok","Google Trends","Instagram","YouTube Shorts","Pinterest"];
 // Códigos de afiliado: preencha quando as contas forem aprovadas (ex.: "farincal-21").
 var AFF={amazon_es:"",amazon_br:"",amazon_us:""};
@@ -311,152 +384,191 @@ function extLinks(m,q){
   if(m==="br")L.splice(3,0,["Mercado Livre","preço no Brasil","https://lista.mercadolivre.com.br/"+encodeURIComponent(q.trim().replace(/\s+/g,"-"))]);
   return L;
 }
+var NOMES={es:"na Espanha",br:"no Brasil",us:"nos EUA"};
+var CORES={"Amazon":"#232F3E","AliExpress":"#E43225","Temu":"#FB7701","SHEIN":"#222222","eBay":"#0064D2","Wallapop":"#13C1AC","PcComponentes":"#FF6000","Mercado Livre":"#2D3277","Shopee":"#EE4D2D","Magalu":"#0086FF","OLX":"#6E0AD6","Walmart":"#0071DC","Target":"#CC0000","Etsy":"#F1641E","Best Buy":"#0046BE"};
+function norm(s){return String(s).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");}
+function el(t,c,txt){var n=document.createElement(t);if(c)n.className=c;if(txt!=null)n.textContent=txt;return n;}
+function ext(a,href){a.href=href;a.target="_blank";a.rel="noopener noreferrer";return a;}
+function money(m,v){var s=(Math.round(v*100)/100).toFixed(v%1?2:0);if(m!=="us")s=s.replace(".",",");return m==="es"?s+" €":MK[m].cur+" "+s;}
+function svg(path){var ns="http://www.w3.org/2000/svg",s=document.createElementNS(ns,"svg");s.setAttribute("width","16");s.setAttribute("height","16");s.setAttribute("viewBox","0 0 24 24");s.setAttribute("aria-hidden","true");var p=document.createElementNS(ns,"path");p.setAttribute("d",path);p.setAttribute("fill","none");p.setAttribute("stroke","currentColor");p.setAttribute("stroke-width","2.2");p.setAttribute("stroke-linecap","round");p.setAttribute("stroke-linejoin","round");s.appendChild(p);return s;}
+var IC={play:"M8 5l11 7-11 7z",trend:"M4 18l5-6 4 3 7-9",tag:"M3 12V4h8l10 10-8 8z M7.5 7.5h.01",plus:"M12 5v14M5 12h14",chev:"M9 6l6 6-6 6",tagbig:"M3 12V4h8l10 10-8 8z"};
+function hl(parent,text,terms){
+  var nt=norm(text),pos=[];terms.forEach(function(t){if(!t)return;var i=nt.indexOf(t);if(i>=0)pos.push([i,i+t.length]);});
+  pos.sort(function(a,b){return a[0]-b[0];});var last=0;
+  pos.forEach(function(p){if(p[0]<last)return;parent.appendChild(document.createTextNode(text.slice(last,p[0])));parent.appendChild(el("mark",null,text.slice(p[0],p[1])));last=p[1];});
+  parent.appendChild(document.createTextNode(text.slice(last)));
+}
 
 var st={m:"es",v:"buscar",cat:"",q:"",sort:"heat"};
-try{var sv=JSON.parse(localStorage.getItem("radar_ui")||"{}");if(MK[sv.m])st.m=sv.m;if(["buscar","alta","cand","fontes"].indexOf(sv.v)>=0)st.v=sv.v;}catch(e){}
+try{var sv=JSON.parse(localStorage.getItem("radar_ui")||"{}");if(MK[sv.m])st.m=sv.m;if(["buscar","alta","lista","dicas"].indexOf(sv.v)>=0)st.v=sv.v;}catch(e){}
 function saveUi(){try{localStorage.setItem("radar_ui",JSON.stringify({m:st.m,v:st.v}));}catch(e){}}
 
-function card(r,terms,rank){
-  var it=el("div","item"),h=el("div","ih"),h3=el("h3");
-  hl(h3,r[1],terms);h.appendChild(h3);if(rank)h.appendChild(el("span","rank",String(rank)));it.appendChild(h);
-  var meta=el("div","meta");meta.appendChild(el("span","price",fmt(r[0],r[3])+"–"+fmt(r[0],r[4]).replace(MK[r[0]].cur+" ","")));
-  meta.appendChild(el("span","tag",r[2]));meta.appendChild(heatEl(r[5]));it.appendChild(meta);
-  it.appendChild(el("div","sig",r[6]));
-  var src=el("div","src");src.appendChild(ext(el("a",null,"Fonte: "+S[r[7]][0]),S[r[7]][1]));it.appendChild(src);
-  var acts=el("div","acts"),short=r[1].split(/[,(/]/)[0].trim(),L=extLinks(r[0],short);
-  [L[0],L[1],L[2]].forEach(function(l){acts.appendChild(ext(el("a","act",l[0]==="AliExpress"?"💲 Custo":l[0]==="TikTok"?"▶ TikTok":"📈 Tendência"),l[2]));});
-  var add=el("button","act p","+ Candidato");add.type="button";
-  add.addEventListener("click",function(){prefill(r);});acts.appendChild(add);
-  it.appendChild(acts);return it;
+function prodItem(r,terms,pos){
+  var li=el("li","prod");
+  var p=el("div","pos");p.appendChild(el("b",null,String(pos)));
+  var c=el("div","calor");c.setAttribute("aria-label","Em alta: "+r[5]+" de 5");for(var i=1;i<=5;i++)c.appendChild(el("i",i<=r[5]?"on":""));
+  p.appendChild(c);li.appendChild(p);
+  var h=el("h4");hl(h,r[1],terms);li.appendChild(h);
+  var l1=el("div","linha1");l1.appendChild(el("span","preco",money(r[0],r[3])+" a "+money(r[0],r[4])));
+  l1.appendChild(el("span","cat",r[2]));if(r[5]>=4)l1.appendChild(el("span","alta","Muito procurado"));li.appendChild(l1);
+  var s=el("p","sinal",r[6]);li.appendChild(s);
+  var f=el("div","fonte");var fa=ext(el("a",null,"Fonte: "+S[r[7]][0]),S[r[7]][1]);f.appendChild(fa);li.appendChild(f);
+  var ac=el("div","acoes"),short=r[1].split(/[,(/]/)[0].trim();
+  var b1=el("button","ac");b1.type="button";b1.appendChild(svg(IC.tagbig));b1.appendChild(document.createTextNode("Comparar preços"));
+  b1.addEventListener("click",function(){buscar(short);});ac.appendChild(b1);
+  var L=extLinks(r[0],short);
+  var a1=ext(el("a","ac"),L[0][2]);a1.appendChild(svg(IC.play));a1.appendChild(document.createTextNode("Ver no TikTok"));ac.appendChild(a1);
+  var a2=ext(el("a","ac"),L[1][2]);a2.appendChild(svg(IC.trend));a2.appendChild(document.createTextNode("Tendência"));ac.appendChild(a2);
+  var b2=el("button","ac add");b2.type="button";b2.appendChild(svg(IC.plus));b2.appendChild(document.createTextNode("Minha lista"));
+  b2.addEventListener("click",function(){prefill(r);});ac.appendChild(b2);
+  li.appendChild(ac);return li;
 }
-function renderCats(){
+function renderSug(){
+  var box=document.getElementById("sugestoes");box.textContent="";
+  box.appendChild(el("span",null,"Em alta "+NOMES[st.m]+":"));
+  DB.filter(function(r){return r[0]===st.m;}).sort(function(a,b){return b[5]-a[5];}).slice(0,3).forEach(function(r){
+    var t=r[1].split(/[,(/]/)[0].trim(),b=el("button","sug",t);b.type="button";b.addEventListener("click",function(){buscar(t);});box.appendChild(b);
+  });
+}
+function buscar(t){var qi=document.getElementById("q");qi.value=t;st.q=t;st.v="buscar";show();window.scrollTo({top:document.getElementById("sform").getBoundingClientRect().top+window.scrollY-20});}
+function renderBusca(){
+  var v=document.getElementById("v-buscar");v.textContent="";var q=st.q.trim();
+  document.getElementById("qx").classList.toggle("hidden",!q);
+  if(!q){
+    v.appendChild(el("h2",null,"Mais procurados "+NOMES[st.m]));
+    v.appendChild(el("p","leve","Toque em Comparar preços em qualquer produto, ou escreva o que procura no campo acima."));
+    var ul=el("ul","lista");
+    DB.filter(function(r){return r[0]===st.m;}).sort(function(a,b){return b[5]-a[5]||a[3]-b[3];}).slice(0,5).forEach(function(r,i){ul.appendChild(prodItem(r,[],i+1));});
+    v.appendChild(ul);
+    var mais=el("button","btn sec","Ver todos os produtos em alta");mais.type="button";mais.addEventListener("click",function(){st.v="alta";show();});
+    var d=el("div","ferr");d.appendChild(mais);v.appendChild(d);return;
+  }
+  var terms=norm(q).split(/\s+/).filter(function(t){return t.length>1;});
+  v.appendChild(el("h2",null,"“"+q+"” "+NOMES[st.m]));
+  var m=ext(el("a","menor"),compareLink(st.m,q));
+  var sel=el("span","sel");var bigs=svg(IC.tagbig);bigs.setAttribute("width","26");bigs.setAttribute("height","26");sel.appendChild(bigs);m.appendChild(sel);
+  var tx=el("div");tx.appendChild(el("b",null,"Comparar o menor preço em centenas de lojas"));
+  tx.appendChild(el("span",null,"Abre a comparação do Google Shopping. Escolha ordenar por preço: menor."));m.appendChild(tx);v.appendChild(m);
+  v.appendChild(el("h3",null,"Nas lojas, do mais barato para o mais caro"));
+  var ul=el("ul","lojas");
+  storeLinks(st.m,q).sort(function(a,b){return b[3]-a[3];}).forEach(function(l){
+    var li=el("li"),a=ext(el("a","loja"),l[2]);
+    var mo=el("span","mono",l[0].split(" ").map(function(w){return w[0];}).join("").slice(0,2).toUpperCase());mo.style.background=CORES[l[0]]||"#4A2A55";a.appendChild(mo);
+    var nm=el("span","nm");nm.appendChild(el("b",null,l[0]));nm.appendChild(el("small",null,l[1]));a.appendChild(nm);
+    a.appendChild(el("span","selo "+(l[3]?"barato":"manual"),l[3]?"Mais barato primeiro":"Ordenar na loja"));
+    li.appendChild(a);ul.appendChild(li);
+  });
+  v.appendChild(ul);
+  v.appendChild(el("h3",null,"O que estão dizendo nas redes"));
+  var rd=el("div","redes");
+  extLinks(st.m,q).filter(function(l){return SOCIAL.indexOf(l[0])>=0;}).forEach(function(l){var a=ext(el("a","rede",l[0]),l[2]);rd.appendChild(a);});
+  v.appendChild(rd);
+  var rows=DB.filter(function(r){if(r[0]!==st.m)return false;var hay=norm(r[1]+" "+r[2]+" "+r[8]);return terms.every(function(t){return hay.indexOf(t)>=0;});})
+    .sort(function(a,b){return b[5]-a[5];});
+  if(rows.length){
+    v.appendChild(el("h3",null,"Está em alta "+NOMES[st.m]));
+    var ul2=el("ul","lista");rows.forEach(function(r,i){ul2.appendChild(prodItem(r,terms,i+1));});v.appendChild(ul2);
+  }
+}
+function renderAlta(){
+  document.getElementById("altaTit").textContent="Em alta "+NOMES[st.m];
+  document.getElementById("altaSub").textContent=MK[st.m].sub;
   var c=document.getElementById("cats");c.textContent="";
   [""].concat(CATS).forEach(function(k){
     var n=DB.filter(function(r){return r[0]===st.m&&(!k||r[2]===k);}).length;if(k&&!n)return;
-    var b=el("button","chip"+(st.cat===k?" on":""),(k||"Todas")+" · "+n);b.type="button";
-    b.addEventListener("click",function(){st.cat=k;renderCats();renderSearch();});c.appendChild(b);
+    var b=el("button","filtro",(k||"Tudo")+" ("+n+")");b.type="button";b.setAttribute("aria-pressed",st.cat===k?"true":"false");
+    b.addEventListener("click",function(){st.cat=k;renderAlta();});c.appendChild(b);
   });
-}
-function renderSearch(){
-  var q=st.q.trim(),terms=norm(q).split(/\s+/).filter(function(t){return t.length>1;});
-  var rows=DB.filter(function(r){
-    if(r[0]!==st.m||(st.cat&&r[2]!==st.cat))return false;
-    if(!terms.length)return true;var hay=norm(r[1]+" "+r[2]+" "+r[8]);
-    return terms.every(function(t){return hay.indexOf(t)>=0;});
-  });
+  if(st.cat&&!DB.some(function(r){return r[0]===st.m&&r[2]===st.cat;}))st.cat="";
+  var rows=DB.filter(function(r){return r[0]===st.m&&(!st.cat||r[2]===st.cat);});
   rows.sort(st.sort==="price"?function(a,b){return a[3]-b[3];}:st.sort==="name"?function(a,b){return a[1].localeCompare(b[1]);}:function(a,b){return b[5]-a[5]||a[3]-b[3];});
-  document.getElementById("count").textContent=rows.length+(rows.length===1?" produto":" produtos")+" no radar de "+MK[st.m].name;
-  var box=document.getElementById("results");box.textContent="";
-  if(q){ // todas as lojas primeiro
-    var cmp=ext(el("a","cheap"),compareLink(st.m,q));
-    cmp.appendChild(el("b",null,"💰 Comparar o menor preço de \""+q+"\""));
-    cmp.appendChild(el("span",null,"Junta centenas de lojas num só lugar. Toque em “Ordenar: preço menor” para ver o mais barato primeiro."));
-    box.appendChild(cmp);
-    box.appendChild(el("div","sec","🛒 Lojas · "+MK[st.m].name+" · do mais barato primeiro"));
-    var g=el("div","grid stores");
-    storeLinks(st.m,q).sort(function(a,b){return b[3]-a[3];}).forEach(function(l){var a=ext(el("a","lk store",l[0]),l[2]);a.appendChild(el("span",null,l[3]?"↑ mais barato primeiro · "+l[1]:l[1]+" · ordene por preço"));g.appendChild(a);});
-    box.appendChild(g);
-    box.appendChild(el("div","sec","📈 Redes e tendência"));
-    var g2=el("div","grid");
-    extLinks(st.m,q).filter(function(l){return SOCIAL.indexOf(l[0])>=0;}).forEach(function(l){var a=ext(el("a","lk",l[0]),l[2]);a.appendChild(el("span",null,l[1]));g2.appendChild(a);});
-    box.appendChild(g2);
-    box.appendChild(el("div","sec",rows.length?"🔥 No radar (em alta)":"🔥 Ainda não está no radar de tendências"));
-  }
-  rows.forEach(function(r){box.appendChild(card(r,terms));});
-  document.getElementById("qx").classList.toggle("hidden",!q);
-}
-function renderTop(){
-  document.getElementById("altaSub").textContent=MK[st.m].sub;
-  var box=document.getElementById("top");box.textContent="";
-  DB.filter(function(r){return r[0]===st.m;}).sort(function(a,b){return b[5]-a[5]||a[3]-b[3];}).slice(0,10)
-    .forEach(function(r,i){box.appendChild(card(r,[],i+1));});
+  document.getElementById("count").textContent=rows.length+(rows.length===1?" produto":" produtos");
+  var ul=document.getElementById("top");ul.textContent="";rows.forEach(function(r,i){ul.appendChild(prodItem(r,[],i+1));});
 }
 function renderLive(){
   var g=MK[st.m].geo,a=MK[st.m].amz,L=[
-    ["TikTok Creative Center","Top Products por país","https://ads.tiktok.com/business/creativecenter/top-products/pc/en"],
-    ["Amazon Movers & Shakers","o que mais subiu em 24 h","https://www."+a+"/gp/movers-and-shakers"],
-    ["Amazon Mais vendidos","top por categoria","https://www."+a+"/gp/bestsellers"],
-    ["Google Trends","buscas em alta hoje","https://trends.google.com/trending?geo="+g],
-    ["#tiktokmademebuyit","vídeos virais","https://www.tiktok.com/tag/tiktokmademebuyit"],
-    ["Pinterest Trends","o que vem aí","https://trends.pinterest.com/"],
-    ["FastMoss","vendas do TikTok Shop","https://www.fastmoss.com/"]];
-  if(st.m==="br")L.splice(1,0,["Mercado Livre","mais vendidos","https://www.mercadolivre.com.br/mais-vendidos"]);
+    ["TikTok Creative Center","Produtos mais anunciados","https://ads.tiktok.com/business/creativecenter/top-products/pc/en"],
+    ["Amazon","Os que mais subiram em 24 h","https://www."+a+"/gp/movers-and-shakers"],
+    ["Amazon","Mais vendidos por categoria","https://www."+a+"/gp/bestsellers"],
+    ["Google Trends","Buscas em alta hoje","https://trends.google.com/trending?geo="+g],
+    ["Pinterest Trends","O que vem por aí","https://trends.pinterest.com/"],
+    ["FastMoss","Vendas do TikTok Shop","https://www.fastmoss.com/"]];
+  if(st.m==="br")L.splice(1,0,["Mercado Livre","Mais vendidos","https://www.mercadolivre.com.br/mais-vendidos"]);
   var box=document.getElementById("live");box.textContent="";
-  L.forEach(function(l){var x=ext(el("a","lk",l[0]),l[2]);x.appendChild(el("span",null,l[1]));box.appendChild(x);});
+  L.forEach(function(l){var x=ext(el("a","fonte-l"),l[2]);x.appendChild(el("b",null,l[0]));x.appendChild(el("small",null,l[1]));box.appendChild(x);});
 }
 function show(){
-  document.querySelectorAll(".mk").forEach(function(b){b.classList.toggle("on",b.dataset.m===st.m);});
-  document.querySelectorAll(".nb").forEach(function(b){b.classList.toggle("on",b.dataset.v===st.v);});
-  document.querySelectorAll(".view").forEach(function(v){v.classList.toggle("on",v.id==="v-"+st.v);});
-  renderCats();renderSearch();renderTop();renderLive();renderCands();saveUi();
+  document.querySelectorAll(".pais").forEach(function(b){b.setAttribute("aria-pressed",b.dataset.m===st.m?"true":"false");});
+  document.querySelectorAll(".aba").forEach(function(b){b.setAttribute("aria-selected",b.dataset.v===st.v?"true":"false");});
+  document.querySelectorAll(".vista").forEach(function(v){v.classList.toggle("on",v.id==="v-"+st.v);});
+  renderSug();renderBusca();renderAlta();renderLive();renderCands();saveUi();
   if(!document.getElementById("c_name").value)document.getElementById("c_mkt").value=st.m;
 }
-document.querySelectorAll(".mk").forEach(function(b){b.addEventListener("click",function(){st.m=b.dataset.m;st.cat="";show();});});
-document.querySelectorAll(".nb").forEach(function(b){b.addEventListener("click",function(){st.v=b.dataset.v;show();window.scrollTo(0,0);});});
+document.querySelectorAll(".pais").forEach(function(b){b.addEventListener("click",function(){st.m=b.dataset.m;st.cat="";show();});});
+document.querySelectorAll(".aba").forEach(function(b){b.addEventListener("click",function(){st.v=b.dataset.v;show();});});
 var qi=document.getElementById("q"),qt=null;
-qi.addEventListener("input",function(){clearTimeout(qt);qt=setTimeout(function(){st.q=qi.value.slice(0,60);renderSearch();},120);});
-document.getElementById("sform").addEventListener("submit",function(e){e.preventDefault();st.q=qi.value.slice(0,60);renderSearch();qi.blur();});
-document.getElementById("qx").addEventListener("click",function(){qi.value="";st.q="";renderSearch();qi.focus();});
-document.getElementById("sort").addEventListener("change",function(e){st.sort=e.target.value;renderSearch();});
+qi.addEventListener("input",function(){clearTimeout(qt);qt=setTimeout(function(){st.q=qi.value.slice(0,60);if(st.v!=="buscar"){st.v="buscar";show();}else renderBusca();},250);});
+document.getElementById("sform").addEventListener("submit",function(e){e.preventDefault();st.q=qi.value.slice(0,60);st.v="buscar";show();qi.blur();});
+document.getElementById("qx").addEventListener("click",function(){qi.value="";st.q="";renderBusca();qi.focus();});
+document.getElementById("sort").addEventListener("change",function(e){st.sort=e.target.value;renderAlta();});
 
-// ---------- candidatos ----------
+// ---------- minha lista ----------
 var cands={items:[]};
-try{var raw=localStorage.getItem("radar_items");if(raw){var p=JSON.parse(raw);if(p&&Array.isArray(p.items))cands=p;}}catch(e){}
+try{var raw=localStorage.getItem("radar_items");if(raw){var p0=JSON.parse(raw);if(p0&&Array.isArray(p0.items))cands=p0;}}catch(e){}
 function num(v){var n=parseFloat(v);return isFinite(n)&&n>=0?n:0;}
 function clamp(v){return Math.min(5,Math.max(1,parseInt(v,10)||3));}
 function clean(it){return{name:String(it.name||"").slice(0,80),mkt:MK[it.mkt]?it.mkt:"es",sale:num(it.sale),cost:num(it.cost),dem:clamp(it.dem),comp:clamp(it.comp),demo:!!it.demo,note:String(it.note||"").slice(0,200),d:String(it.d||"").slice(0,10)};}
 cands.items=cands.items.map(clean).filter(function(i){return i.name;}).slice(0,300);
 function scoreOf(it){var m=it.sale>0?(it.sale-it.cost)/it.sale:0,mp=m>=.5?4:m>=.3?2:m>0?1:0;return{margin:m,score:Math.round((it.dem*2+(5-it.comp)+(it.demo?2:0)+mp)/20*100)};}
-function status(t){var s=document.getElementById("status");s.textContent=t;setTimeout(function(){if(s.textContent===t)s.textContent="";},3000);}
-function persist(){try{localStorage.setItem("radar_items",JSON.stringify(cands));}catch(e){status("Não foi possível salvar neste navegador");}}
+function status(t){var s=document.getElementById("status");s.textContent=t;setTimeout(function(){if(s.textContent===t)s.textContent="";},3500);}
+function persist(){try{localStorage.setItem("radar_items",JSON.stringify(cands));}catch(e){status("Não foi possível guardar neste navegador.");}}
 function renderCands(){
-  var box=document.getElementById("clist");box.textContent="";
+  var ul=document.getElementById("clist");ul.textContent="";
   var rows=cands.items.map(function(it,i){return{it:it,i:i,r:scoreOf(it)};}).sort(function(a,b){return b.r.score-a.r.score;});
-  var bd=document.getElementById("nbadge");bd.textContent=String(rows.length);bd.classList.toggle("hidden",!rows.length);
-  if(!rows.length){box.appendChild(el("div","empty","Nenhum candidato ainda. Use “+ Candidato” na busca ou preencha acima."));return;}
+  var c=document.getElementById("cont");c.textContent=String(rows.length);c.classList.toggle("hidden",!rows.length);
+  document.getElementById("listaTit").classList.toggle("hidden",!rows.length);
+  if(!rows.length){ul.appendChild(el("li","vazio","Sua lista está vazia. Use o botão Minha lista em qualquer produto em alta, ou preencha acima."));return;}
   rows.forEach(function(x){
-    var it=x.it,sc=x.r.score,row=el("div","item cand");
-    row.appendChild(el("div","sc "+(sc>=70?"s-hi":sc>=45?"s-md":"s-lo"),String(sc)));
-    var cb=el("div","cb");cb.appendChild(el("b",null,it.name));
-    cb.appendChild(el("div","src",MK[it.mkt].name+" · margem "+Math.round(x.r.margin*100)+"% ("+fmt(it.mkt,it.sale-it.cost)+")"+(it.note?" · "+it.note:"")));
-    row.appendChild(cb);
+    var it=x.it,sc=x.r.score,li=el("li","cand");
+    li.appendChild(el("span","nota "+(sc>=70?"n-alta":sc>=45?"n-media":"n-baixa"),String(sc)));
+    var ct=el("div","ct");ct.appendChild(el("b",null,it.name));
+    ct.appendChild(el("small",null,"Margem de "+Math.round(x.r.margin*100)+"% ("+money(it.mkt,it.sale-it.cost)+" por unidade) "+NOMES[it.mkt]+(it.note?". "+it.note:"")));
+    li.appendChild(ct);
     var d=el("button","del","✕");d.type="button";d.setAttribute("aria-label","Remover "+it.name);
-    d.addEventListener("click",function(){cands.items.splice(x.i,1);persist();renderCands();status("Removido");});
-    row.appendChild(d);box.appendChild(row);
+    d.addEventListener("click",function(){cands.items.splice(x.i,1);persist();renderCands();status("Removido da lista.");});
+    li.appendChild(d);ul.appendChild(li);
   });
 }
 function prefill(r){
-  st.v="cand";show();window.scrollTo(0,0);
-  document.getElementById("c_name").value=r[1].slice(0,80);
-  document.getElementById("c_mkt").value=r[0];
-  document.getElementById("c_sale").value=String(r[4]);
-  document.getElementById("c_dem").value=String(Math.max(1,Math.min(5,r[5])));
+  st.v="lista";show();window.scrollTo({top:document.getElementById("cform").getBoundingClientRect().top+window.scrollY-80});
+  document.getElementById("c_name").value=r[1].slice(0,80);document.getElementById("c_mkt").value=r[0];
+  document.getElementById("c_sale").value=String(r[4]);document.getElementById("c_dem").value=String(clamp(r[5]));
   document.getElementById("c_cost").value="";document.getElementById("c_cost").focus();
-  status("Preencha o custo do fornecedor e adicione");
+  status("Falta só o custo do fornecedor.");
 }
 document.getElementById("cform").addEventListener("submit",function(e){
   e.preventDefault();var g=function(id){return document.getElementById(id).value;};
   var it=clean({name:g("c_name").trim(),mkt:g("c_mkt"),sale:g("c_sale"),cost:g("c_cost"),dem:g("c_dem"),comp:g("c_comp"),demo:g("c_demo")==="1",note:g("c_note").trim(),d:new Date().toISOString().slice(0,10)});
-  if(!it.name)return;if(cands.items.length>=300){status("Limite de 300 itens");return;}
-  cands.items.push(it);persist();renderCands();status("Adicionado ✓");
+  if(!it.name)return;if(cands.items.length>=300){status("A lista chegou ao limite de 300 produtos.");return;}
+  cands.items.push(it);persist();renderCands();status("Adicionado à lista.");
   ["c_name","c_sale","c_cost","c_note"].forEach(function(id){document.getElementById(id).value="";});
 });
 document.getElementById("copyCsv").addEventListener("click",function(){
   var q=function(s){s=String(s);if(/^[=+\-@\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';};
-  var lines=["produto,mercado,venda,custo,margem_%,demanda,concorrencia,video,nota,data,notas"];
+  var lines=["produto,pais,venda,custo,margem_%,procura,concorrencia,video,nota,data,anotacoes"];
   cands.items.forEach(function(it){var r=scoreOf(it);lines.push([q(it.name),it.mkt,it.sale,it.cost,Math.round(r.margin*100),it.dem,it.comp,it.demo?"sim":"nao",r.score,it.d,q(it.note)].join(","));});
-  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(lines.join("\n")).then(function(){status("CSV copiado ✓");},function(){status("Cópia bloqueada pelo navegador");});
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(lines.join("\n")).then(function(){status("Planilha copiada. Cole no Excel ou no Google Sheets.");},function(){status("O navegador bloqueou a cópia.");});
 });
 document.getElementById("dlBackup").addEventListener("click",function(){
   var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(cands,null,2)],{type:"application/json"}));
-  a.download="radar-backup-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(a);a.click();
+  a.download="radar-copia-"+new Date().toISOString().slice(0,10)+".json";document.body.appendChild(a);a.click();
   setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
 });
 document.getElementById("upBackup").addEventListener("change",function(e){
-  var f=e.target.files&&e.target.files[0];if(!f)return;if(f.size>500000){status("Arquivo grande demais");return;}
+  var f=e.target.files&&e.target.files[0];if(!f)return;if(f.size>500000){status("Arquivo grande demais.");return;}
   f.text().then(function(t){var p=JSON.parse(t);if(!p||!Array.isArray(p.items))throw 0;
-    cands={items:p.items.slice(0,300).map(clean).filter(function(i){return i.name;})};persist();renderCands();status("Backup restaurado ✓");
-  }).catch(function(){status("Backup inválido");});e.target.value="";
+    cands={items:p.items.slice(0,300).map(clean).filter(function(i){return i.name;})};persist();renderCands();status("Cópia restaurada.");
+  }).catch(function(){status("Esse arquivo não é uma cópia do Radar.");});e.target.value="";
 });
 
 show();
