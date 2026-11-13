@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-F8U78PRdBDcgNpw17Ot4gqigrPAWh6nC7+M2QI02W44='; style-src 'sha256-s+LmXNbUq+dVMNdn/+VnVHoXEuMyf2X/TQUvkKzKVJc='; img-src 'self' data:; base-uri 'none'; form-action 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>Radar de Produtos em Alta</title>
+<style>:root{--bg:#0f1115;--card:#181b22;--line:#2a2f3a;--txt:#e8eaf0;--mut:#9aa3b2;--acc:#ff3d6e;--acc2:#25d0c6;--ok:#3ccf7a;--warn:#f5b942;--bad:#ff6b6b}
+@media (prefers-color-scheme: light){:root{--bg:#f6f7fb;--card:#fff;--line:#e3e6ee;--txt:#151821;--mut:#5d6575}}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--txt);line-height:1.45}
+.wrap{max-width:980px;margin:0 auto;padding:16px}
+header h1{font-size:1.45rem;margin:4px 0}
+header p{color:var(--mut);margin:0 0 12px;font-size:.92rem}
+.tabs{display:flex;gap:8px;position:sticky;top:0;background:var(--bg);padding:8px 0;z-index:5}
+.tab{flex:1;border:1px solid var(--line);background:var(--card);color:var(--txt);padding:10px;border-radius:12px;font-weight:600;cursor:pointer;font-size:.95rem}
+.tab[aria-selected="true"]{border-color:var(--acc);box-shadow:inset 0 0 0 1px var(--acc)}
+section{margin:18px 0}
+h2{font-size:1.1rem;margin:0 0 4px}
+.sub{color:var(--mut);font-size:.85rem;margin:0 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.card h3{font-size:.98rem;margin:0 0 4px}
+.price{color:var(--acc2);font-weight:600;font-size:.88rem}
+.sig{font-size:.86rem;margin:6px 0}
+.src{font-size:.75rem;color:var(--mut)}
+.src a{color:var(--mut)}
+.pill{display:inline-block;font-size:.72rem;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--mut);margin-right:4px}
+.links{display:flex;flex-wrap:wrap;gap:8px}
+.btn,.links a{display:inline-flex;align-items:center;gap:6px;padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--txt);text-decoration:none;font-size:.88rem;cursor:pointer}
+.links a small{color:var(--mut)}
+.btn.primary{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+input,select{background:var(--card);color:var(--txt);border:1px solid var(--line);border-radius:10px;padding:9px 10px;font-size:.92rem;width:100%}
+label{font-size:.78rem;color:var(--mut);display:block;margin-bottom:3px}
+.f{flex:1;min-width:130px}.f2{flex:2}.q{flex:3;min-width:200px}
+.mt8{margin-top:8px}.mt10{margin-top:10px}
+.tips{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:12px;font-size:.88rem}
+.tips li{margin:4px 0}
+table{width:100%;border-collapse:collapse;font-size:.86rem}
+th,td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--mut);font-weight:600;font-size:.76rem;text-transform:uppercase}
+.empty{color:var(--mut)}
+.score{font-weight:700;padding:2px 8px;border-radius:8px;display:inline-block}
+.s-hi{background:rgba(60,207,122,.18);color:var(--ok)}.s-md{background:rgba(245,185,66,.18);color:var(--warn)}.s-lo{background:rgba(255,107,107,.18);color:var(--bad)}
+.del{background:none;border:none;color:var(--mut);cursor:pointer;font-size:1rem}
+.status{font-size:.78rem;color:var(--mut);margin-left:6px}
+.tablewrap{overflow-x:auto}
+.hidden{display:none}
+footer{color:var(--mut);font-size:.75rem;margin:24px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>📡 Radar de Produtos em Alta</h1>
+  <p>Produtos que estão vendendo nas redes sociais, para revenda — Espanha, Brasil e Global/EUA. Uso interno FarincalTec.</p>
+</header>
+
+<nav class="tabs" role="tablist">
+  <button class="tab" role="tab" data-m="es">🇪🇸 Espanha</button>
+  <button class="tab" role="tab" data-m="br">🇧🇷 Brasil</button>
+  <button class="tab" role="tab" data-m="us">🌎 Global/EUA</button>
+</nav>
+
+<section>
+  <h2>🔎 Buscador rápido</h2>
+  <p class="sub">Digite um produto ou nicho: abre a busca em todas as fontes do mercado escolhido, de uma vez.</p>
+  <form id="qform" class="row">
+    <input id="q" class="q" maxlength="80" placeholder="ex.: tiras branqueadoras, legging sem costura, mini impressora" autocomplete="off">
+    <button class="btn primary" type="submit">Buscar</button>
+  </form>
+  <div id="qlinks" class="links mt10"></div>
+</section>
+
+<section>
+  <h2>🔥 Em alta agora</h2>
+  <p class="sub" id="trendSub"></p>
+  <div id="trends" class="grid"></div>
+</section>
+
+<section>
+  <h2>📊 Rankings ao vivo</h2>
+  <p class="sub">Listas oficiais atualizadas pelas próprias plataformas. Confira 1–2 vezes por semana.</p>
+  <div id="live" class="links"></div>
+</section>
+
+<section>
+  <h2>⭐ Meus candidatos</h2>
+  <p class="sub">Avalie cada produto antes de comprar estoque. Pontuação = demanda + margem + concorrência + se dá vídeo de demonstração. A lista fica guardada só neste navegador: use o backup para levar a outro aparelho.<span id="saveStatus" class="status"></span></p>
+  <form id="cform" class="card">
+    <div class="row">
+      <div class="f f2"><label for="c_name">Produto</label><input id="c_name" maxlength="80" required></div>
+      <div class="f"><label for="c_mkt">Mercado</label><select id="c_mkt"><option value="es">Espanha</option><option value="br">Brasil</option><option value="us">Global/EUA</option></select></div>
+    </div>
+    <div class="row mt8">
+      <div class="f"><label for="c_sale">Preço de venda</label><input id="c_sale" type="number" min="0" step="0.01" required></div>
+      <div class="f"><label for="c_cost">Custo total (produto+frete)</label><input id="c_cost" type="number" min="0" step="0.01" required></div>
+      <div class="f"><label for="c_dem">Demanda (1–5)</label><select id="c_dem"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select></div>
+      <div class="f"><label for="c_comp">Concorrência (1–5)</label><select id="c_comp"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select></div>
+      <div class="f"><label for="c_demo">Dá vídeo de demonstração?</label><select id="c_demo"><option value="1">Sim</option><option value="0">Não</option></select></div>
+    </div>
+    <div class="mt8"><label for="c_note">Notas (fornecedor, link, ideia de vídeo)</label><input id="c_note" maxlength="200"></div>
+    <div class="mt10"><button class="btn primary" type="submit">Adicionar</button></div>
+  </form>
+  <div class="tablewrap mt10">
+    <table>
+      <thead><tr><th>Produto</th><th>Mercado</th><th>Margem</th><th>Nota</th><th></th></tr></thead>
+      <tbody id="ctable"></tbody>
+    </table>
+  </div>
+  <div class="row mt8">
+    <button class="btn" id="copyCsv" type="button">Copiar como CSV</button>
+    <button class="btn" id="backup" type="button">⬇️ Baixar backup</button>
+    <button class="btn" id="restore" type="button">⬆️ Restaurar backup</button>
+    <input id="restoreFile" class="hidden" type="file" accept=".json,application/json">
+  </div>
+</section>
+
+<section>
+  <h2>✅ Checklist antes de vender</h2>
+  <ul class="tips">
+    <li><b>Preço:</b> o ponto doce é entre 6 e 45 € (Espanha) / até ~50 US$ — compra por impulso.</li>
+    <li><b>Vídeo:</b> se não dá para mostrar um "antes e depois" em 15–60 s, desconfie.</li>
+    <li><b>Margem:</b> mire ≥ 50% depois do frete; a comissão de afiliado e as taxas comem 15–25%.</li>
+    <li><b>Tendência subindo, não no pico:</b> confira no Google Trends se a curva está crescendo nos últimos 90 dias.</li>
+    <li><b>Calendário:</b> estamos na janela de Black Friday e Natal — presentes e kits vendem até meados de dezembro; depois, o janeiro "reseta" (fitness, organização).</li>
+    <li><b>Regras:</b> cosméticos e suplementos exigem registro (AEMPS na Espanha, ANVISA no Brasil). Evite sem documentação.</li>
+  </ul>
+</section>
+
+<footer>Dados de "Em alta agora" coletados em 11/11/2026 de relatórios públicos (FastMoss, EchoTik, NetInfluencer, Canaltech, entre outros). São sinais de tendência, não garantia de venda.</footer>
+</div>
+<script>(function(){
+"use strict";
+var MK = {
+  es:{name:"Espanha",cur:"€",amz:"amazon.es",geo:"ES",gl:"es"},
+  br:{name:"Brasil",cur:"R$",amz:"amazon.com.br",geo:"BR",gl:"br"},
+  us:{name:"Global/EUA",cur:"US$",amz:"amazon.com",geo:"US",gl:"us"}
+};
+
+var TRENDS = {
+  es:{sub:"TikTok Shop Espanha: moda esportiva barata e beleza lideram; compradores muito sensíveis a preço.",
+   items:[
+    {t:"Legging de yoga sem costura, cintura alta",p:"10–11 €",s:"Nº 1 da Espanha em abril/2026: ~284 mil unidades.",tag:"Moda fitness",src:"FastMoss · abr/2026",u:"https://www.fastmoss.com/blog/tiktok-shop-europe-top-products-april-2026/"},
+    {t:"Tiras branqueadoras de dentes (roxas)",p:"8,50–14 €",s:"~152 mil unidades; aparece no Top 5 de quatro países europeus.",tag:"Beleza/oral",src:"FastMoss · abr/2026",u:"https://www.fastmoss.com/blog/tiktok-shop-europe-top-products-april-2026/"},
+    {t:"Camiseta feminina básica lisa",p:"11–14 €",s:"~178 mil unidades em 30 dias.",tag:"Moda",src:"FastMoss · abr/2026",u:"https://www.fastmoss.com/blog/tiktok-shop-europe-top-products-april-2026/"},
+    {t:"Camiseta esportiva refletiva masculina",p:"6–10 €",s:"~332 mil unidades — maior volume do Top 5.",tag:"Moda fitness",src:"FastMoss · abr/2026",u:"https://www.fastmoss.com/blog/tiktok-shop-europe-top-products-april-2026/"},
+    {t:"Guarda-chuva dobrável, almofada de pescoço, mesa dobrável",p:"10–30 €",s:"Entre os produtos do topo semanal na Espanha (agosto/2026).",tag:"Casa/viagem",src:"EchoTik · ago/2026",u:"https://www.echotik.live/blog/tiktok-shop-weekly-report/"},
+    {t:"Enxaguante bucal e óleo corporal",p:"8–20 €",s:"Higiene/beleza seguem como a categoria mais clara no país.",tag:"Beleza",src:"EchoTik · ago/2026",u:"https://www.echotik.live/blog/tiktok-shop-weekly-report/"},
+    {t:"Batom de longa duração / maquiagem viral",p:"10–25 €",s:"TikTok Shop já é top 7 em beleza no varejo online espanhol.",tag:"Beleza",src:"Marketing Directo · 2026",u:"https://www.marketingdirecto.com/anunciantes-general/publicaciones/tiktok-shop-arrasa-espana-convierte-belleza-gran-motor-ventas"}
+  ]},
+  br:{sub:"TikTok Shop Brasil: beleza é ~46% das compras; moda feminina e utilidades do dia a dia vendem forte.",
+   items:[
+    {t:"Calças, blusas e vestidos casuais femininos",p:"R$ 40–120",s:"Os três itens mais vendidos de moda no 1º ano da plataforma.",tag:"Moda",src:"Canaltech · 2026",u:"https://canaltech.com.br/mercado/1-ano-de-tiktok-shop-no-brasil-o-que-o-brasileiro-mais-compra-na-plataforma/"},
+    {t:"Sérum facial de vitamina C",p:"R$ 19–39",s:"Apontado como o mais vendido de beleza em 2026.",tag:"Beleza",src:"CupomOnline · jun/2026",u:"https://www.cupomonline.com.br/melhores-produtos-tiktok-shop/"},
+    {t:"Gloss labial e perfumes de influenciadoras",p:"R$ 25–150",s:"Entre os itens mais vendidos citados pelo próprio TikTok.",tag:"Beleza",src:"Mercado&Consumo · 2025",u:"https://mercadoeconsumo.com.br/30/09/2025/ecommerce/tiktok-shop-de-melatonina-a-torneira-veja-quais-sao-os-produtos-mais-vendidos-no-brasil/"},
+    {t:"Organizadores para casa",p:"R$ 20–80",s:"Aparecem repetidamente entre os mais vendidos de Casa.",tag:"Casa",src:"Mercado&Consumo · dez/2025",u:"https://mercadoeconsumo.com.br/02/12/2025/ecommerce/tiktok-shop-bate-recordes-de-vendas-em-lives-e-o-que-isso-revela-sobre-o-consumidor-brasileiro/amp/"},
+    {t:"Parafusadeira, torneira, modelador de cachos",p:"R$ 60–200",s:"Ferramentas e utilidades com demonstração fácil em vídeo.",tag:"Casa/ferramentas",src:"Mercado&Consumo · 2025",u:"https://mercadoeconsumo.com.br/30/09/2025/ecommerce/tiktok-shop-de-melatonina-a-torneira-veja-quais-sao-os-produtos-mais-vendidos-no-brasil/"},
+    {t:"Fone de ouvido e drone de entrada",p:"R$ 50–300",s:"Tecnologia é comprada por ~23% dos usuários do Shop.",tag:"Tech",src:"Mercado&Consumo / Opinion Box",u:"https://viniensina.com.br/dados-tiktok-shop-brasil-2026/"},
+    {t:"Produtos para pets",p:"R$ 20–90",s:"18% dos compradores já compraram pet no TikTok Shop.",tag:"Pet",src:"Opinion Box · 2026",u:"https://viniensina.com.br/dados-tiktok-shop-brasil-2026/"}
+  ]},
+  us:{sub:"EUA: beleza é a maior categoria (US$ 2,08 bi no 1º semestre/2026); preço mediano dos campeões ~US$ 40.",
+   items:[
+    {t:"Kits de skincare coreano (K-beauty)",p:"US$ 20–45",s:"medicube faturou US$ 31,4 mi em outubro/2026 — recorde de loja.",tag:"Beleza",src:"NetInfluencer · out/2026",u:"https://www.netinfluencer.com/?p=56114"},
+    {t:"Eletrólitos em pó e bebidas energéticas",p:"US$ 15–40",s:"No topo semanal dos EUA em agosto/2026.",tag:"Bem-estar",src:"EchoTik · ago/2026",u:"https://www.echotik.live/blog/tiktok-shop-weekly-report-august-3-9-2026/"},
+    {t:"Miniaturas de carros die-cast (colecionáveis)",p:"US$ 10–40",s:"Liderou a semana nos EUA — adultos comprando brinquedos.",tag:"Hobby",src:"EchoTik · ago/2026",u:"https://www.echotik.live/blog/tiktok-shop-weekly-report-august-3-9-2026/"},
+    {t:"Gel/patches para olhos",p:"US$ 10–30",s:"Entre os top da semana; resultado visível em vídeo.",tag:"Beleza",src:"EchoTik · ago/2026",u:"https://www.echotik.live/blog/tiktok-shop-weekly-report-august-3-9-2026/"},
+    {t:"Anel de fáscia / massageadores",p:"US$ 15–35",s:"Top 10 de produtos em agosto/2026 (US$ 1,58 mi).",tag:"Bem-estar",src:"NetInfluencer · ago/2026",u:"https://www.netinfluencer.com/?p=53276"},
+    {t:"Multivitamínico líquido, cílios magnéticos, corretor postural",p:"US$ 15–40",s:"Lista de produtos a acompanhar em 2026.",tag:"Vários",src:"EchoTik · jun/2026",u:"https://www.echotik.live/blog/best-tiktok-shop-products-trending-2026-top-ecommerce-picks/"},
+    {t:"Mini impressora com IA, máscara LED, power bank magnético",p:"US$ 25–60",s:"Gadgets em alta — bons presentes de fim de ano.",tag:"Tech/presente",src:"QuickSync · 2026",u:"https://quicksync.pro/?p=1470"}
+  ]}
+};
+
+function live(m){
+  var g=MK[m].geo, a=MK[m].amz, L=[
+    ["TikTok Creative Center — Top Products","ranking oficial de anúncios por país","https://ads.tiktok.com/business/creativecenter/top-products/pc/en"],
+    ["Amazon — Movers & Shakers","o que mais subiu em 24 h","https://www."+a+"/gp/movers-and-shakers"],
+    ["Amazon — Mais vendidos","top por categoria","https://www."+a+"/gp/bestsellers"],
+    ["Google Trends — Em alta agora","buscas explodindo hoje","https://trends.google.com/trending?geo="+g],
+    ["#tiktokmademebuyit","vídeos de produtos virais","https://www.tiktok.com/tag/tiktokmademebuyit"],
+    ["Pinterest Trends","tendências que vêm aí","https://trends.pinterest.com/"]
+  ];
+  if(m==="br") L.splice(1,0,["Mercado Livre — Mais vendidos","ranking do maior marketplace BR","https://www.mercadolivre.com.br/mais-vendidos"]);
+  L.push(["FastMoss / Kalodata","dados de vendas do TikTok Shop (teste grátis)","https://www.fastmoss.com/"]);
+  return L;
+}
+
+function qlinks(m,q){
+  var e=encodeURIComponent(q), g=MK[m].geo, a=MK[m].amz, tag=q.toLowerCase().replace(/[^a-z0-9à-ú]/gi,"");
+  var L=[
+    ["TikTok","vídeos e Shop","https://www.tiktok.com/search?q="+e],
+    ["Instagram","#"+tag,"https://www.instagram.com/explore/tags/"+encodeURIComponent(tag)+"/"],
+    ["YouTube Shorts","reviews","https://www.youtube.com/results?search_query="+e+"+review&sp=EgIYAQ%253D%253D"],
+    ["Google Trends","curva 90 dias","https://trends.google.com/trends/explore?geo="+g+"&date=today%203-m&q="+e],
+    ["Amazon","preço e reviews","https://www."+a+"/s?k="+e],
+    ["Google Shopping","concorrência","https://www.google.com/search?tbm=shop&gl="+MK[m].gl+"&q="+e],
+    ["AliExpress","custo do fornecedor","https://www.aliexpress.com/wholesale?SearchText="+e],
+    ["Pinterest","interesse visual","https://www.pinterest.com/search/pins/?q="+e]
+  ];
+  if(m==="br") L.splice(5,0,["Mercado Livre","preço BR","https://lista.mercadolivre.com.br/"+encodeURIComponent(q.trim().replace(/\s+/g,"-"))]);
+  return L;
+}
+
+function $(id){return document.getElementById(id);}
+function el(tag,attrs,text){var n=document.createElement(tag);if(attrs)for(var k in attrs)n.setAttribute(k,attrs[k]);if(text!=null)n.textContent=text;return n;}
+function linkBtn(label,small,href){var a=el("a",{href:href,target:"_blank",rel:"noopener noreferrer"});a.appendChild(document.createTextNode(label+" "));a.appendChild(el("small",null,small));return a;}
+
+var cur="es";
+function render(){
+  document.querySelectorAll(".tab").forEach(function(b){b.setAttribute("aria-selected",b.dataset.m===cur?"true":"false");});
+  var T=TRENDS[cur], box=$("trends"); box.textContent="";
+  $("trendSub").textContent=T.sub;
+  T.items.forEach(function(it){
+    var c=el("div",{"class":"card"});
+    var pills=el("div");pills.appendChild(el("span",{"class":"pill"},it.tag));c.appendChild(pills);
+    c.appendChild(el("h3",null,it.t));
+    c.appendChild(el("div",{"class":"price"},it.p));
+    c.appendChild(el("div",{"class":"sig"},it.s));
+    var s=el("div",{"class":"src"});s.appendChild(el("a",{href:it.u,target:"_blank",rel:"noopener noreferrer"},"Fonte: "+it.src));c.appendChild(s);
+    var b=el("button",{"class":"btn mt8",type:"button"},"🔎 Pesquisar este");
+    b.addEventListener("click",function(){$("q").value=it.t.split(/[,/(]/)[0].trim();runQuery();$("q").scrollIntoView({behavior:"smooth"});});
+    c.appendChild(b);
+    box.appendChild(c);
+  });
+  var lv=$("live"); lv.textContent="";
+  live(cur).forEach(function(l){lv.appendChild(linkBtn(l[0],l[1],l[2]));});
+  $("c_mkt").value=cur;
+  if($("q").value.trim()) runQuery();
+  try{localStorage.setItem("radar_mkt",cur);}catch(e){}
+}
+function runQuery(){
+  var q=$("q").value.trim().slice(0,80), box=$("qlinks"); box.textContent="";
+  if(!q) return;
+  qlinks(cur,q).forEach(function(l){box.appendChild(linkBtn(l[0],l[1],l[2]));});
+}
+document.querySelectorAll(".tab").forEach(function(b){b.addEventListener("click",function(){cur=b.dataset.m;render();});});
+$("qform").addEventListener("submit",function(e){e.preventDefault();runQuery();});
+
+// ---------- Candidatos (guardados neste navegador) ----------
+var MAX=300, KEY="radar_items";
+function num(v){var n=parseFloat(v);return isFinite(n)&&n>=0&&n<1e9?n:0;}
+function clean(raw){
+  // Valida e normaliza qualquer item vindo do armazenamento ou de um backup.
+  if(!raw||typeof raw!=="object") return null;
+  var it={name:String(raw.name||"").trim().slice(0,80),mkt:MK.hasOwnProperty(raw.mkt)?raw.mkt:"es",
+    sale:num(raw.sale),cost:num(raw.cost),
+    dem:Math.min(5,Math.max(1,parseInt(raw.dem,10)||3)),comp:Math.min(5,Math.max(1,parseInt(raw.comp,10)||3)),
+    demo:raw.demo===true,note:String(raw.note||"").trim().slice(0,200),
+    d:/^\d{4}-\d{2}-\d{2}$/.test(String(raw.d||""))?String(raw.d):""};
+  return it.name?it:null;
+}
+function cleanList(arr){var out=[];if(Array.isArray(arr))for(var i=0;i<arr.length&&out.length<MAX;i++){var c=clean(arr[i]);if(c)out.push(c);}return out;}
+
+var state={items:[]};
+try{var s0=localStorage.getItem(KEY);if(s0){var p0=JSON.parse(s0);state.items=cleanList(p0&&p0.items);}}catch(e){}
+
+function scoreOf(it){
+  var m=it.sale>0?(it.sale-it.cost)/it.sale:0;
+  var mp=m>=0.5?4:m>=0.3?2:m>0?1:0;
+  var raw=it.dem*2+(5-it.comp)+(it.demo?2:0)+mp; // máx 20
+  return {margin:m,score:Math.round(raw/20*100)};
+}
+function setStatus(t){$("saveStatus").textContent=t;}
+function save(){
+  try{localStorage.setItem(KEY,JSON.stringify(state));setStatus(" · salvo neste navegador ✓");}
+  catch(e){setStatus(" · não foi possível salvar (armazenamento bloqueado)");}
+}
+function renderTable(){
+  var tb=$("ctable"); tb.textContent="";
+  var rows=state.items.map(function(it,i){return {it:it,i:i,r:scoreOf(it)};}).sort(function(a,b){return b.r.score-a.r.score;});
+  if(!rows.length){var tr=el("tr");tr.appendChild(el("td",{colspan:"5","class":"empty"},"Nenhum candidato ainda. Adicione o primeiro acima."));tb.appendChild(tr);return;}
+  rows.forEach(function(x){
+    var it=x.it, tr=el("tr"), mk=MK[it.mkt]||MK.es;
+    var td1=el("td");td1.appendChild(el("b",null,it.name));if(it.note){td1.appendChild(el("br"));td1.appendChild(el("span",{"class":"src"},it.note));}
+    tr.appendChild(td1);
+    tr.appendChild(el("td",null,mk.name));
+    tr.appendChild(el("td",null,Math.round(x.r.margin*100)+"% ("+mk.cur+" "+(it.sale-it.cost).toFixed(2)+")"));
+    var td4=el("td"),sc=x.r.score;td4.appendChild(el("span",{"class":"score "+(sc>=70?"s-hi":sc>=45?"s-md":"s-lo")},String(sc)));tr.appendChild(td4);
+    var td5=el("td"),d=el("button",{"class":"del",type:"button",title:"Remover","aria-label":"Remover"},"✕");
+    d.addEventListener("click",function(){state.items.splice(x.i,1);renderTable();save();});
+    td5.appendChild(d);tr.appendChild(td5);
+    tb.appendChild(tr);
+  });
+}
+$("cform").addEventListener("submit",function(e){
+  e.preventDefault();
+  var g=function(id){return $(id).value;};
+  var it=clean({name:g("c_name"),mkt:g("c_mkt"),sale:g("c_sale"),cost:g("c_cost"),dem:g("c_dem"),comp:g("c_comp"),
+    demo:g("c_demo")==="1",note:g("c_note"),d:new Date().toISOString().slice(0,10)});
+  if(!it) return;
+  if(state.items.length>=MAX){setStatus(" · limite de "+MAX+" itens");return;}
+  state.items.push(it);renderTable();save();
+  ["c_name","c_sale","c_cost","c_note"].forEach(function(id){$(id).value="";});
+});
+
+function csvCell(s){s=String(s);if(/^[=+\-@\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';}
+$("copyCsv").addEventListener("click",function(){
+  var lines=[["produto","mercado","venda","custo","margem_%","demanda","concorrencia","video","nota","data","notas"].join(",")];
+  state.items.forEach(function(it){var r=scoreOf(it);lines.push([csvCell(it.name),it.mkt,it.sale,it.cost,Math.round(r.margin*100),it.dem,it.comp,it.demo?"sim":"nao",r.score,it.d||"",csvCell(it.note||"")].join(","));});
+  var txt=lines.join("\n");
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){setStatus(" · CSV copiado ✓");},function(){setStatus(" · cópia bloqueada");});}
+  else setStatus(" · cópia não suportada neste navegador");
+});
+
+// ---------- Backup ----------
+$("backup").addEventListener("click",function(){
+  var data=JSON.stringify({app:"radar-produtos",v:1,exported:new Date().toISOString(),items:state.items},null,2);
+  var url=URL.createObjectURL(new Blob([data],{type:"application/json"}));
+  var a=el("a",{href:url,download:"radar-candidatos-"+new Date().toISOString().slice(0,10)+".json"});
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  setStatus(" · backup baixado ✓");
+});
+$("restore").addEventListener("click",function(){$("restoreFile").value="";$("restoreFile").click();});
+$("restoreFile").addEventListener("change",function(){
+  var f=this.files&&this.files[0]; if(!f) return;
+  if(f.size>1048576){setStatus(" · arquivo grande demais");return;}
+  var r=new FileReader();
+  r.onload=function(){
+    var p;try{p=JSON.parse(String(r.result));}catch(e){setStatus(" · arquivo inválido");return;}
+    if(!p||p.app!=="radar-produtos"||!Array.isArray(p.items)){setStatus(" · não é um backup do Radar");return;}
+    var incoming=cleanList(p.items), seen={}, merged=[];
+    state.items.concat(incoming).forEach(function(it){var k=it.name.toLowerCase()+"|"+it.mkt;if(!seen[k]&&merged.length<MAX){seen[k]=1;merged.push(it);}});
+    var added=merged.length-state.items.length;
+    state.items=merged;renderTable();save();
+    setStatus(" · backup restaurado ("+added+" novo"+(added===1?"":"s")+") ✓");
+  };
+  r.onerror=function(){setStatus(" · não foi possível ler o arquivo");};
+  r.readAsText(f);
+});
+
+try{var m0=localStorage.getItem("radar_mkt");if(MK.hasOwnProperty(m0))cur=m0;}catch(e){}
+render();renderTable();
+})();
+</script>
+</body>
+</html>
